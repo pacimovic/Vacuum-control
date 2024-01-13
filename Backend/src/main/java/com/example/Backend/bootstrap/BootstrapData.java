@@ -37,6 +37,12 @@ public class BootstrapData implements CommandLineRunner {
         permission.setCan_read_users(true);
         permission.setCan_update_users(true);
         permission.setCan_delete_users(true);
+        permission.setCan_search_vacuum(true);
+        permission.setCan_start_vacuum(true);
+        permission.setCan_stop_vacuum(true);
+        permission.setCan_discharge_vacuum(true);
+        permission.setCan_add_vacuum(true);
+        permission.setCan_remove_vacuum(true);
 
         permission.setUser(user);
         user.setPermission(permission);

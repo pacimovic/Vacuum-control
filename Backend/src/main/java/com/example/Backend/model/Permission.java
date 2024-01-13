@@ -18,6 +18,12 @@ public class Permission {
     private boolean can_read_users;
     private boolean can_update_users;
     private boolean can_delete_users;
+    private boolean can_search_vacuum;
+    private boolean can_start_vacuum;
+    private boolean can_stop_vacuum;
+    private boolean can_discharge_vacuum;
+    private boolean can_add_vacuum;
+    private boolean can_remove_vacuum;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")

@@ -52,13 +52,25 @@ public class UserService implements IService<User, Long>, UserDetailsService {
             throw new UsernameNotFoundException("Email: "+email+" not found");
         }
 
+        Collection<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(myUser);
+
+        return new org.springframework.security.core.userdetails.User(myUser.getEmail(), myUser.getPassword(), grantedAuthorities);
+    }
+
+
+    private Collection<GrantedAuthority> getGrantedAuthorities(User myUser){
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         if(myUser.getPermission().isCan_create_users()) grantedAuthorities.add(new SimpleGrantedAuthority("can_create_users"));
         if(myUser.getPermission().isCan_read_users()) grantedAuthorities.add(new SimpleGrantedAuthority("can_read_users"));
         if(myUser.getPermission().isCan_update_users()) grantedAuthorities.add(new SimpleGrantedAuthority("can_update_users"));
         if(myUser.getPermission().isCan_delete_users()) grantedAuthorities.add(new SimpleGrantedAuthority("can_delete_users"));
+        if(myUser.getPermission().isCan_search_vacuum()) grantedAuthorities.add(new SimpleGrantedAuthority("can_search_vacuum"));
+        if(myUser.getPermission().isCan_start_vacuum()) grantedAuthorities.add(new SimpleGrantedAuthority("can_start_vacuum"));
+        if(myUser.getPermission().isCan_stop_vacuum()) grantedAuthorities.add(new SimpleGrantedAuthority("can_stop_vacuum"));
+        if(myUser.getPermission().isCan_discharge_vacuum()) grantedAuthorities.add(new SimpleGrantedAuthority("can_discharge_vacuum"));
+        if(myUser.getPermission().isCan_add_vacuum()) grantedAuthorities.add(new SimpleGrantedAuthority("can_add_vacuum"));
+        if(myUser.getPermission().isCan_remove_vacuum()) grantedAuthorities.add(new SimpleGrantedAuthority("can_remove_vacuum"));
 
-
-        return new org.springframework.security.core.userdetails.User(myUser.getEmail(), myUser.getPassword(), grantedAuthorities);
+        return grantedAuthorities;
     }
 }

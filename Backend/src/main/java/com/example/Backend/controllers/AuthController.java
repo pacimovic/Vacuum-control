@@ -38,6 +38,13 @@ public class AuthController {
             return ResponseEntity.status(401).build();
         }
 
+        Permission permission = getPermissions(au);
+
+
+        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail()), permission));
+    }
+
+    private Permission getPermissions(Authentication au){
         Permission permission = new Permission();
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_read_users"))) permission.setCan_read_users(true);
         else permission.setCan_read_users(false);
@@ -48,6 +55,19 @@ public class AuthController {
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_delete_users"))) permission.setCan_delete_users(true);
         else permission.setCan_delete_users(false);
 
-        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail()), permission));
+        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum"))) permission.setCan_search_vacuum(true);
+        else permission.setCan_search_vacuum(false);
+        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))) permission.setCan_start_vacuum(true);
+        else permission.setCan_search_vacuum(false);
+        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_stop_vacuum"))) permission.setCan_stop_vacuum(true);
+        else permission.setCan_stop_vacuum(false);
+        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_discharge_vacuum"))) permission.setCan_discharge_vacuum(true);
+        else permission.setCan_discharge_vacuum(false);
+        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum"))) permission.setCan_add_vacuum(true);
+        else permission.setCan_add_vacuum(false);
+        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_remove_vacuum"))) permission.setCan_remove_vacuum(true);
+        else permission.setCan_remove_vacuum(false);
+
+        return permission;
     }
 }
