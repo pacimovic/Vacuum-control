@@ -28,6 +28,7 @@ public class UserController {
     public ResponseEntity<?> getAllUsers() {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
+
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_read_users")))
             return ResponseEntity.ok(userService.findAll());
 

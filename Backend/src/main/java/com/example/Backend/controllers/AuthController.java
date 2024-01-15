@@ -54,7 +54,6 @@ public class AuthController {
         else permission.setCan_update_users(false);
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_delete_users"))) permission.setCan_delete_users(true);
         else permission.setCan_delete_users(false);
-
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum"))) permission.setCan_search_vacuum(true);
         else permission.setCan_search_vacuum(false);
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))) permission.setCan_start_vacuum(true);

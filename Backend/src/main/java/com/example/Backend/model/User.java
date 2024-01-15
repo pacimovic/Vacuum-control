@@ -1,9 +1,12 @@
 package com.example.Backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -29,5 +32,9 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private Permission permission;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Vacuum> vacuum;
 
 }
