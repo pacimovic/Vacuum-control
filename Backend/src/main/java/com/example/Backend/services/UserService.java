@@ -39,7 +39,7 @@ public class UserService implements IService<User, Long>, UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User finByEmail(String email) {
+    public User findByEmail(String email) {
         return this.userRepository.findByEmail(email);
     }
 

@@ -56,9 +56,9 @@ public class BootstrapData implements CommandLineRunner {
         for(int i = 1; i <= 5 ; i++){
             Vacuum vacuum = new Vacuum();
             vacuum.setName("Usisivac_" + i);
-            vacuum.setStatus(Status.ON);
+            vacuum.setStatus(Status.OFF);
             vacuum.setUser(user);
-            vacuum.setActive(false);
+            vacuum.setActive(true);
 
             vacuums.add(vacuum);
         }

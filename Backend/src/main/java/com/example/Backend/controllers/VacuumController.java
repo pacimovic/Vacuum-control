@@ -1,5 +1,6 @@
 package com.example.Backend.controllers;
 
+import com.example.Backend.enums.Status;
 import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
 import com.example.Backend.services.UserService;
@@ -27,8 +28,10 @@ public class VacuumController {
     public ResponseEntity<?> createVacuum(@RequestBody Vacuum vacuum){
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.finByEmail(email);
+        User user = userService.findByEmail(email);
         vacuum.setUser(user);
+        vacuum.setStatus(Status.OFF);
+        vacuum.setActive(true);
 
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum")))
