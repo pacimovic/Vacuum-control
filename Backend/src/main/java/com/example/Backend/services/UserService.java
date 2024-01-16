@@ -39,6 +39,10 @@ public class UserService implements IService<User, Long>, UserDetailsService {
         return userRepository.findAll();
     }
 
+    public User finByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
     @Override
     public void deleteById(Long userId) {
         this.userRepository.deleteById(userId);

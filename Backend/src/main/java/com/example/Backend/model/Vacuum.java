@@ -1,6 +1,7 @@
 package com.example.Backend.model;
 
 import com.example.Backend.enums.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,8 +19,11 @@ public class Vacuum {
     private Status status;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private User user;
 
     private boolean active;
+
+
 }
