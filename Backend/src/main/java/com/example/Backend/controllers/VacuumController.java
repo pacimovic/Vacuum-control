@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/vacuums")
@@ -38,5 +40,22 @@ public class VacuumController {
             return ResponseEntity.ok(vacuumService.save(vacuum));
 
         return ResponseEntity.status(403).build();
+    }
+
+
+    @GetMapping(value = "/search",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> searchVacuum(@RequestParam String name){
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.findByEmail(email);
+
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum")))
+            return ResponseEntity.ok(vacuumService.findByName(name, user.getId()));
+
+        return ResponseEntity.status(403).build();
+
     }
 }

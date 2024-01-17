@@ -35,4 +35,8 @@ public class VacuumService implements IService<Vacuum, Long>{
     public void deleteById(Long vacuumId) {
         this.vacuumRepository.deleteById(vacuumId);
     }
+
+    public List<Vacuum> findByName(String name, Long user_id) {
+        return this.vacuumRepository.findAllByNameContainsAndUser_Id(name, user_id);
+    }
 }
