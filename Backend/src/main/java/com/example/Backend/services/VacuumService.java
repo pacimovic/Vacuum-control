@@ -1,5 +1,7 @@
 package com.example.Backend.services;
 
+import com.example.Backend.enums.Status;
+import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
 import com.example.Backend.repositories.VacuumRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,7 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.vacuumRepository.deleteById(vacuumId);
     }
 
-    public List<Vacuum> findByName(String name, Long user_id) {
-        return this.vacuumRepository.findAllByNameContainsAndUser_Id(name, user_id);
+    public List<Vacuum> searchVacuum(String name, Status status, Long user) {
+        return this.vacuumRepository.findAllByNameContainsAndStatusAndUser_Id(name, status, user);
     }
 }
