@@ -6,6 +6,7 @@ import com.example.Backend.model.Vacuum;
 import com.example.Backend.repositories.VacuumRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +39,13 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.vacuumRepository.deleteById(vacuumId);
     }
 
-    public List<Vacuum> searchVacuum(String name, Status status, Long user) {
-        return this.vacuumRepository.findAllByNameContainsAndStatusAndUser_Id(name, status, user);
+    public List<Vacuum> searchVacuum(String name, List<Status> statuses, User user) {
+        if(statuses.isEmpty()){
+            statuses.add(Status.ON);
+            statuses.add(Status.OFF);
+            statuses.add(Status.DISCHARGING);
+        }
+
+        return this.vacuumRepository.findByNameContainsAndStatusInAndUser(name, statuses, user);
     }
 }

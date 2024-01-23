@@ -45,7 +45,7 @@ public class VacuumController {
 
     @GetMapping(value = "/search",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam Status status){
+    public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam("status") List<Status> statuses){
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
@@ -53,7 +53,7 @@ public class VacuumController {
 
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum")))
-            return ResponseEntity.ok(vacuumService.searchVacuum(name, status, user.getId()));
+            return ResponseEntity.ok(vacuumService.searchVacuum(name, statuses, user));
 
         return ResponseEntity.status(403).build();
 
