@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -34,6 +36,7 @@ public class VacuumController {
         vacuum.setUser(user);
         vacuum.setStatus(Status.OFF);
         vacuum.setActive(true);
+        vacuum.setDateFrom(LocalDate.now());
 
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum")))
@@ -45,17 +48,21 @@ public class VacuumController {
 
     @GetMapping(value = "/search",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam("status") List<Status> statuses){
+    public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam("status") List<Status> statuses, @RequestParam String dateFrom){
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
 
 
+
+
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum")))
-            return ResponseEntity.ok(vacuumService.searchVacuum(name, statuses, user));
+            return ResponseEntity.ok(vacuumService.searchVacuum(name, statuses, dateFrom, user));
 
         return ResponseEntity.status(403).build();
 
     }
+
+
 }

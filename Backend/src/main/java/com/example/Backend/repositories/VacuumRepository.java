@@ -4,17 +4,16 @@ import com.example.Backend.enums.Status;
 import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface VacuumRepository extends JpaRepository<Vacuum, Long> {
 
-    List<Vacuum> findByNameContainsAndStatusInAndUser(String name, List<Status> statuses, User user);
+    List<Vacuum> findByNameContainsAndStatusInAndAndDateFromGreaterThanEqualAndUser(String name, List<Status> statuses, LocalDate dateFrom, User user);
 
 //    List<Vacuum> findAllByNameContainsAndStatusAndUser_Id(String name, Status status, Long user_id);
 

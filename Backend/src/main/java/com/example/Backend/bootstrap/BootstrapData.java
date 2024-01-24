@@ -10,7 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -81,6 +83,7 @@ public class BootstrapData implements CommandLineRunner {
             else vacuum.setStatus(Status.OFF);
             vacuum.setUser(user);
             vacuum.setActive(true);
+            vacuum.setDateFrom(LocalDate.now());
 
             vacuums.add(vacuum);
         }
@@ -93,6 +96,7 @@ public class BootstrapData implements CommandLineRunner {
             else vacuum1.setStatus(Status.OFF);
             vacuum1.setUser(user1);
             vacuum1.setActive(true);
+            vacuum1.setDateFrom(LocalDate.now());
 
             vacuums1.add(vacuum1);
         }
