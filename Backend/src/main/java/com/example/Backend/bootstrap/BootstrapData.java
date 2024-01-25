@@ -83,7 +83,7 @@ public class BootstrapData implements CommandLineRunner {
             else vacuum.setStatus(Status.OFF);
             vacuum.setUser(user);
             vacuum.setActive(true);
-            vacuum.setDateFrom(LocalDate.now());
+            vacuum.setCreated(LocalDate.now());
 
             vacuums.add(vacuum);
         }
@@ -96,7 +96,7 @@ public class BootstrapData implements CommandLineRunner {
             else vacuum1.setStatus(Status.OFF);
             vacuum1.setUser(user1);
             vacuum1.setActive(true);
-            vacuum1.setDateFrom(LocalDate.now());
+            vacuum1.setCreated(LocalDate.now());
 
             vacuums1.add(vacuum1);
         }

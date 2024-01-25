@@ -25,7 +25,7 @@ public class Vacuum {
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private User user;
 
-    private LocalDate dateFrom;
+    private LocalDate created;
 
     private boolean active;
 

@@ -36,7 +36,7 @@ public class VacuumController {
         vacuum.setUser(user);
         vacuum.setStatus(Status.OFF);
         vacuum.setActive(true);
-        vacuum.setDateFrom(LocalDate.now());
+        vacuum.setCreated(LocalDate.now());
 
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum")))
@@ -48,17 +48,15 @@ public class VacuumController {
 
     @GetMapping(value = "/search",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam("status") List<Status> statuses, @RequestParam String dateFrom){
+    public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam("status") List<Status> statuses,
+                                          @RequestParam String dateFrom, @RequestParam String dateTo){
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
 
-
-
-
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum")))
-            return ResponseEntity.ok(vacuumService.searchVacuum(name, statuses, dateFrom, user));
+            return ResponseEntity.ok(vacuumService.searchVacuum(name, statuses, dateFrom, dateTo, user));
 
         return ResponseEntity.status(403).build();
 

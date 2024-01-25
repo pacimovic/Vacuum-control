@@ -13,7 +13,11 @@ import java.util.List;
 @Repository
 public interface VacuumRepository extends JpaRepository<Vacuum, Long> {
 
-    List<Vacuum> findByNameContainsAndStatusInAndAndDateFromGreaterThanEqualAndUser(String name, List<Status> statuses, LocalDate dateFrom, User user);
+    List<Vacuum> findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndUser(String name, List<Status> statuses, LocalDate dateFrom, User user);
+
+    List<Vacuum> findByNameContainsAndStatusInAndCreatedBetweenAndUser(String name, List<Status> statuses, LocalDate dateFrom, LocalDate dateTo, User user);
+
+
 
 //    List<Vacuum> findAllByNameContainsAndStatusAndUser_Id(String name, Status status, Long user_id);
 

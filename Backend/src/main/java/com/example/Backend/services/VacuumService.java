@@ -40,15 +40,19 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.vacuumRepository.deleteById(vacuumId);
     }
 
-    public List<Vacuum> searchVacuum(String name, List<Status> statuses, String dateFrom, User user) {
+    public List<Vacuum> searchVacuum(String name, List<Status> statuses, String dateFrom, String dateTo, User user) {
         if(statuses.isEmpty()){
             statuses.add(Status.ON);
             statuses.add(Status.OFF);
             statuses.add(Status.DISCHARGING);
         }
 
-        LocalDate localDate = LocalDate.parse(dateFrom);
+        LocalDate date1;
+        if(dateFrom.equals("")) date1 = LocalDate.of(1970, 1, 1);
+        else date1 = LocalDate.parse(dateFrom);
 
-        return this.vacuumRepository.findByNameContainsAndStatusInAndAndDateFromGreaterThanEqualAndUser(name, statuses, localDate, user);
+        if(dateTo != "") return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedBetweenAndUser(name, statuses, date1, LocalDate.parse(dateTo), user);
+
+        return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndUser(name, statuses, date1, user);
     }
 }
