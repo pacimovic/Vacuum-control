@@ -40,6 +40,10 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.vacuumRepository.deleteById(vacuumId);
     }
 
+    public void removeVacuum(Long vacuumId) {
+
+    }
+
     public List<Vacuum> searchVacuum(String name, List<Status> statuses, String dateFrom, String dateTo, User user) {
         if(statuses.isEmpty()){
             statuses.add(Status.ON);

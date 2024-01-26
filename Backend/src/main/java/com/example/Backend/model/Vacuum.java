@@ -16,6 +16,7 @@ public class Vacuum {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private Status status;

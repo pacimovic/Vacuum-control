@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -60,6 +61,27 @@ public class VacuumController {
 
         return ResponseEntity.status(403).build();
 
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteVacuum(@PathVariable Long id) {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_remove_vacuum"))){
+            Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
+            if(optionalVacuum.isPresent()){
+                Vacuum vacuum = optionalVacuum.get();
+
+                if(vacuum.getStatus() == Status.OFF){
+                    vacuum.setActive(false);
+                    this.vacuumService.save(vacuum);
+                    return ResponseEntity.noContent().build();
+                }
+            }
+
+        }
+
+        return ResponseEntity.status(403).build();
     }
 
 
