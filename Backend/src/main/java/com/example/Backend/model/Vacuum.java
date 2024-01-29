@@ -30,5 +30,8 @@ public class Vacuum {
 
     private boolean active;
 
+    @Version
+    private Integer version = 0;
+
 
 }

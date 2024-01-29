@@ -35,7 +35,7 @@ public class VacuumController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);
         vacuum.setUser(user);
-        vacuum.setStatus(Status.OFF);
+        vacuum.setStatus(Status.STOPPED);
         vacuum.setActive(true);
         vacuum.setCreated(LocalDate.now());
 
@@ -63,6 +63,21 @@ public class VacuumController {
 
     }
 
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> startVacuum(@PathVariable Long id) {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))){
+            Vacuum vacuum = this.vacuumService.startVacuum(id);
+            if(vacuum != null)
+            {
+                return ResponseEntity.ok(vacuum);
+            }
+        }
+
+        return ResponseEntity.status(403).build();
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteVacuum(@PathVariable Long id) {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
@@ -72,7 +87,7 @@ public class VacuumController {
             if(optionalVacuum.isPresent()){
                 Vacuum vacuum = optionalVacuum.get();
 
-                if(vacuum.getStatus() == Status.OFF){
+                if(vacuum.getStatus() == Status.STOPPED){
                     vacuum.setActive(false);
                     this.vacuumService.save(vacuum);
                     return ResponseEntity.noContent().build();

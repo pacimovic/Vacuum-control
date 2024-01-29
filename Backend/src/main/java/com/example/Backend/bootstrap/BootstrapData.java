@@ -79,8 +79,8 @@ public class BootstrapData implements CommandLineRunner {
         for(int i = 1; i <= 3 ; i++){
             Vacuum vacuum = new Vacuum();
             vacuum.setName("Bosch_" + i);
-            if(i%2 == 0) vacuum.setStatus(Status.ON);
-            else vacuum.setStatus(Status.OFF);
+            if(i%2 == 0) vacuum.setStatus(Status.RUNNING);
+            else vacuum.setStatus(Status.STOPPED);
             vacuum.setUser(user);
             vacuum.setActive(true);
             vacuum.setCreated(LocalDate.now());
@@ -92,8 +92,8 @@ public class BootstrapData implements CommandLineRunner {
         for(int i = 1; i <= 3 ; i++){
             Vacuum vacuum1 = new Vacuum();
             vacuum1.setName("Kirbi_" + i);
-            if(i%2 == 0) vacuum1.setStatus(Status.ON);
-            else vacuum1.setStatus(Status.OFF);
+            if(i%2 == 0) vacuum1.setStatus(Status.RUNNING);
+            else vacuum1.setStatus(Status.STOPPED);
             vacuum1.setUser(user1);
             vacuum1.setActive(true);
             vacuum1.setCreated(LocalDate.now());

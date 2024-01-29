@@ -18,10 +18,6 @@ public interface VacuumRepository extends JpaRepository<Vacuum, Long> {
     List<Vacuum> findByNameContainsAndStatusInAndCreatedBetweenAndUser(String name, List<Status> statuses, LocalDate dateFrom, LocalDate dateTo, User user);
 
 
-
-//    List<Vacuum> findAllByNameContainsAndStatusAndUser_Id(String name, Status status, Long user_id);
-
-
 //    @Query("SELECT v FROM Vacuum v WHERE v.name LIKE CONCAT('%',:name,'%') AND v.status = ANY(:statuses) AND v.user = :user")
 //    List<Vacuum> findAllBy(@Param("name") String name, @Param("statuses") List<Status> statuses, @Param("user") User user);
 }

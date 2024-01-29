@@ -2,7 +2,7 @@ package com.example.Backend.enums;
 
 public enum Status {
 
-    ON,
-    OFF,
+    RUNNING,
+    STOPPED,
     DISCHARGING
 }

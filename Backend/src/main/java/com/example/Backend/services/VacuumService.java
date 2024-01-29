@@ -4,10 +4,11 @@ import com.example.Backend.enums.Status;
 import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
 import com.example.Backend.repositories.VacuumRepository;
+import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,14 +41,35 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.vacuumRepository.deleteById(vacuumId);
     }
 
-    public void removeVacuum(Long vacuumId) {
+    public Vacuum startVacuum(Long id) {
+        Optional<Vacuum> optionalVacuum = this.vacuumRepository.findById(id);
 
+        if(optionalVacuum.isPresent()){
+            Vacuum vacuum = optionalVacuum.get();
+            if(vacuum.getStatus().equals(Status.STOPPED)){
+                try {
+                    Thread.sleep(5000);
+
+                    vacuum.setStatus(Status.RUNNING);
+                    return this.vacuumRepository.save(vacuum);
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ObjectOptimisticLockingFailureException exception) {
+                    this.startVacuum(id);
+                }
+            }
+        }
+
+        return null;
     }
+
 
     public List<Vacuum> searchVacuum(String name, List<Status> statuses, String dateFrom, String dateTo, User user) {
         if(statuses.isEmpty()){
-            statuses.add(Status.ON);
-            statuses.add(Status.OFF);
+            statuses.add(Status.RUNNING);
+            statuses.add(Status.STOPPED);
             statuses.add(Status.DISCHARGING);
         }
 

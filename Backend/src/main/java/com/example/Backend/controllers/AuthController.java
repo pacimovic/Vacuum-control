@@ -40,7 +40,6 @@ public class AuthController {
 
         Permission permission = getPermissions(au);
 
-
         return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail()), permission));
     }
 
