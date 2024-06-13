@@ -6,6 +6,7 @@ import com.example.Backend.model.Vacuum;
 import com.example.Backend.repositories.VacuumRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -41,28 +42,21 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.vacuumRepository.deleteById(vacuumId);
     }
 
-    public Vacuum startVacuum(Long id) {
-        Optional<Vacuum> optionalVacuum = this.vacuumRepository.findById(id);
 
-        if(optionalVacuum.isPresent()){
-            Vacuum vacuum = optionalVacuum.get();
-            if(vacuum.getStatus().equals(Status.STOPPED)){
-                try {
-                    Thread.sleep(5000);
-
-                    vacuum.setStatus(Status.RUNNING);
-                    return this.vacuumRepository.save(vacuum);
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ObjectOptimisticLockingFailureException exception) {
-                    this.startVacuum(id);
-                }
+    @Async
+    public void startVacuum(Vacuum vacuum) {
+        try {
+            if(vacuum.getStatus().equals(Status.STOPPED))
+            {
+                Thread.sleep(15000);
+                vacuum.setStatus(Status.RUNNING);
+                this.vacuumRepository.save(vacuum);
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ObjectOptimisticLockingFailureException exception) {
+            this.startVacuum(vacuum);
         }
-
-        return null;
     }
 
 

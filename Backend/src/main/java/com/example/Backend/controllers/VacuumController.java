@@ -5,6 +5,7 @@ import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
 import com.example.Backend.services.UserService;
 import com.example.Backend.services.VacuumService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -68,11 +69,18 @@ public class VacuumController {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))){
-            Vacuum vacuum = this.vacuumService.startVacuum(id);
-            if(vacuum != null)
-            {
-                return ResponseEntity.ok(vacuum);
+
+            Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
+            if(optionalVacuum.isPresent()){
+                Vacuum vacuum = optionalVacuum.get();
+                if(vacuum.getStatus().equals(Status.STOPPED) && // da li je u stanju STOPPED
+                        vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){ //provera da li usisivac odgovara ulogovanom user-u
+                    this.vacuumService.startVacuum(vacuum);
+                    return ResponseEntity.ok().build();
+                }
             }
+            else return ResponseEntity.status(404).build();
+
         }
 
         return ResponseEntity.status(403).build();
