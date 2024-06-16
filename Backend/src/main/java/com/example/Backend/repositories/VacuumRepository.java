@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public interface VacuumRepository extends JpaRepository<Vacuum, Long> {
 
-    List<Vacuum> findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndUser(String name, List<Status> statuses, LocalDate dateFrom, User user);
+    List<Vacuum> findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndActiveTrueAndUser(String name, List<Status> statuses, LocalDate dateFrom, User user);
 
-    List<Vacuum> findByNameContainsAndStatusInAndCreatedBetweenAndUser(String name, List<Status> statuses, LocalDate dateFrom, LocalDate dateTo, User user);
+    List<Vacuum> findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(String name, List<Status> statuses, LocalDate dateFrom, LocalDate dateTo, User user);
 
 
 //    @Query("SELECT v FROM Vacuum v WHERE v.name LIKE CONCAT('%',:name,'%') AND v.status = ANY(:statuses) AND v.user = :user")
