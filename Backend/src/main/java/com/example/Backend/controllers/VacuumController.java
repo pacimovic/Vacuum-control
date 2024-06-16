@@ -80,7 +80,26 @@ public class VacuumController {
                 }
             }
             else return ResponseEntity.status(404).build();
+        }
+        return ResponseEntity.status(403).build();
+    }
 
+    @PutMapping(value = "/stop/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> stopVacuum(@PathVariable Long id){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_stop_vacuum")) &&
+                    !runningOperations.containsKey(id)){
+            Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
+            if(optionalVacuum.isPresent()){
+                Vacuum vacuum = optionalVacuum.get();
+                if(vacuum.getStatus().equals(Status.RUNNING) &&
+                        vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+                    this.vacuumService.stopVacuum(vacuum);
+                    return ResponseEntity.ok().build();
+                }
+            }
+            else return ResponseEntity.status(404).build();
         }
 
         return ResponseEntity.status(403).build();

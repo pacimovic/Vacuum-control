@@ -62,6 +62,24 @@ public class VacuumService implements IService<Vacuum, Long>{
         }
     }
 
+    @Async
+    public void stopVacuum(Vacuum vacuum) {
+        try {
+            if(vacuum.getStatus().equals(Status.RUNNING))
+            {
+                VacuumController.runningOperations.put(vacuum.getId(), true);
+                Thread.sleep(15000);
+                vacuum.setStatus(Status.STOPPED);
+                this.vacuumRepository.save(vacuum);
+                VacuumController.runningOperations.remove(vacuum.getId());
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ObjectOptimisticLockingFailureException exception) {
+            this.stopVacuum(vacuum);
+        }
+    }
+
 
     public List<Vacuum> searchVacuum(String name, List<Status> statuses, String dateFrom, String dateTo, User user) {
         if(statuses.isEmpty()){
