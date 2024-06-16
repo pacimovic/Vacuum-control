@@ -1,5 +1,6 @@
 package com.example.Backend.services;
 
+import com.example.Backend.controllers.VacuumController;
 import com.example.Backend.enums.Status;
 import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
@@ -48,9 +49,11 @@ public class VacuumService implements IService<Vacuum, Long>{
         try {
             if(vacuum.getStatus().equals(Status.STOPPED))
             {
+                VacuumController.runningOperations.put(vacuum.getId(), true);
                 Thread.sleep(15000);
                 vacuum.setStatus(Status.RUNNING);
                 this.vacuumRepository.save(vacuum);
+                VacuumController.runningOperations.remove(vacuum.getId());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

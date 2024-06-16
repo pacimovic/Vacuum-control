@@ -13,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -24,6 +22,8 @@ public class VacuumController {
 
     private final VacuumService vacuumService;
     private final UserService userService;
+
+    public static Map<Long, Boolean> runningOperations = new HashMap<>();
 
     public VacuumController(VacuumService vacuumService, UserService userService) {
         this.vacuumService = vacuumService;
@@ -64,12 +64,12 @@ public class VacuumController {
 
     }
 
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/start/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> startVacuum(@PathVariable Long id) {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
-        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))){
-
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum")) &&
+                        !runningOperations.containsKey(id)){ //ako se neka operacija vec ne izvrsava nad datim usisivacem
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
             if(optionalVacuum.isPresent()){
                 Vacuum vacuum = optionalVacuum.get();
