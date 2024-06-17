@@ -24,6 +24,7 @@ public class VacuumController {
     private final UserService userService;
 
     public static Map<Long, Boolean> runningOperations = new HashMap<>();
+    public static Map<Long, Integer> vacuumRunningCycle = new HashMap<>();
 
     public VacuumController(VacuumService vacuumService, UserService userService) {
         this.vacuumService = vacuumService;

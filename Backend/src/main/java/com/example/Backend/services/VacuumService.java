@@ -49,8 +49,9 @@ public class VacuumService implements IService<Vacuum, Long>{
         try {
             if(vacuum.getStatus().equals(Status.STOPPED))
             {
+                System.out.println("Starting...");
                 VacuumController.runningOperations.put(vacuum.getId(), true);
-                Thread.sleep(15000);
+                Thread.sleep(5000);
                 vacuum.setStatus(Status.RUNNING);
                 this.vacuumRepository.save(vacuum);
                 VacuumController.runningOperations.remove(vacuum.getId());
@@ -67,10 +68,20 @@ public class VacuumService implements IService<Vacuum, Long>{
         try {
             if(vacuum.getStatus().equals(Status.RUNNING))
             {
+                System.out.println("Stopping...");
                 VacuumController.runningOperations.put(vacuum.getId(), true);
-                Thread.sleep(15000);
+                Thread.sleep(5000);
                 vacuum.setStatus(Status.STOPPED);
-                this.vacuumRepository.save(vacuum);
+                Vacuum newVacuum = this.vacuumRepository.save(vacuum);
+                int cycleCounter = 0;
+                if(VacuumController.vacuumRunningCycle.containsKey(vacuum.getId()))
+                    cycleCounter = VacuumController.vacuumRunningCycle.get(vacuum.getId());
+                cycleCounter++;
+                VacuumController.vacuumRunningCycle.put(vacuum.getId(), cycleCounter);
+                if(cycleCounter >= 3){
+                    VacuumController.vacuumRunningCycle.put(vacuum.getId(), 0);
+                    dischargeVacuum(newVacuum);
+                }
                 VacuumController.runningOperations.remove(vacuum.getId());
             }
         } catch (InterruptedException e) {
@@ -84,6 +95,7 @@ public class VacuumService implements IService<Vacuum, Long>{
     public void dischargeVacuum(Vacuum vacuum) {
         try {
             if(vacuum.getStatus().equals(Status.STOPPED)){
+                System.out.println("Discharging...");
                 VacuumController.runningOperations.put(vacuum.getId(), true);
                 Thread.sleep(15000);
                 vacuum.setStatus(Status.DISCHARGING);
