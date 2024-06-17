@@ -105,6 +105,27 @@ public class VacuumController {
         return ResponseEntity.status(403).build();
     }
 
+    @PutMapping(value = "/discharge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> dischargeVacuum(@PathVariable Long id){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_discharge_vacuum")) &&
+                !runningOperations.containsKey(id)){
+            Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
+            if(optionalVacuum.isPresent()){
+                Vacuum vacuum = optionalVacuum.get();
+                if(vacuum.getStatus().equals(Status.STOPPED) &&
+                        vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+                    this.vacuumService.dischargeVacuum(vacuum);
+                    return ResponseEntity.ok().build();
+                }
+            }
+            else return ResponseEntity.status(404).build();
+        }
+
+        return ResponseEntity.status(403).build();
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteVacuum(@PathVariable Long id) {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
@@ -120,6 +141,7 @@ public class VacuumController {
                     return ResponseEntity.noContent().build();
                 }
             }
+            else return ResponseEntity.status(404).build();
 
         }
 
