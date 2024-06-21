@@ -1,7 +1,6 @@
 package com.example.Backend.model;
 
 import com.example.Backend.enums.Status;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,10 +16,7 @@ public class ErrorMessage {
 
     private LocalDate date;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "VACUUM_ID", referencedColumnName = "ID")
-    private Vacuum vacuum;
+    private Long vacuumId;
 
     private Status status;
 

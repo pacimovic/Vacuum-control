@@ -124,7 +124,7 @@ public class VacuumService implements IService<Vacuum, Long>{
         if(dateFrom.equals("")) date1 = LocalDate.of(1970, 1, 1);
         else date1 = LocalDate.parse(dateFrom);
 
-        if(dateTo != "") return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(name, statuses, date1, LocalDate.parse(dateTo), user);
+        if(!dateTo.equals("")) return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(name, statuses, date1, LocalDate.parse(dateTo), user);
 
         return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndActiveTrueAndUser(name, statuses, date1, user);
     }
