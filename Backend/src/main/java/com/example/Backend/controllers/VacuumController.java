@@ -142,11 +142,15 @@ public class VacuumController {
             return ResponseEntity.status(403).build();
 
 
+        if(!operation.equals("start") && !operation.equals("stop") && !operation.equals("discharge")){
+            return ResponseEntity.status(403).build();
+        }
+
         Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
         if(optionalVacuum.isPresent()){
             Vacuum vacuum = optionalVacuum.get();
             if(vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
-                //Schedule operation..
+                this.vacuumService.scheduleOperation(scheduleDate, operation, id);
                 return ResponseEntity.ok().build();
             }
         }
