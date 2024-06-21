@@ -1,6 +1,7 @@
 package com.example.Backend.controllers;
 
 import com.example.Backend.enums.Status;
+import com.example.Backend.model.ScheduleDate;
 import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
 import com.example.Backend.services.UserService;
@@ -8,6 +9,7 @@ import com.example.Backend.services.VacuumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -123,6 +125,37 @@ public class VacuumController {
             }
             else return ResponseEntity.status(404).build();
         }
+
+        return ResponseEntity.status(403).build();
+    }
+
+    @PutMapping(value = "/schedule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> scheduleOperation(@RequestBody ScheduleDate scheduleDate, @RequestParam Long id,
+                                               @RequestParam String operation) {
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        Collection<?> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        //Proveravamo permisije korisnika za operaciju koju hoce da zakaze
+        if((operation.equals("start") && !authorities.contains(new SimpleGrantedAuthority("can_start_vacuum"))) ||
+                (operation.equals("stop") && !authorities.contains(new SimpleGrantedAuthority("can_stop_vacuum"))) ||
+                (operation.equals("discharge") && !authorities.contains(new SimpleGrantedAuthority("can_discharge_vacuum"))))
+            return ResponseEntity.status(403).build();
+
+
+        Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
+        if(optionalVacuum.isPresent()){
+            Vacuum vacuum = optionalVacuum.get();
+            if(vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+                //Schedule operation..
+                return ResponseEntity.ok().build();
+            }
+        }
+        else return ResponseEntity.status(404).build();
+
+
+        System.out.println(scheduleDate.toString());
+        System.out.println("Vacuum id: " + id);
+        System.out.println("Operation: " + operation);
 
         return ResponseEntity.status(403).build();
     }

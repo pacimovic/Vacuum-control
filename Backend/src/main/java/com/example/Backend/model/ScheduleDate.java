@@ -9,6 +9,8 @@ public class ScheduleDate {
 
     private String minute;
 
+    private String hour;
+
     private String dayMonth;
 
     private String month;
