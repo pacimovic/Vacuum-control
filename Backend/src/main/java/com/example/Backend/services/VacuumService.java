@@ -61,7 +61,7 @@ public class VacuumService implements IService<Vacuum, Long>{
             {
                 System.out.println("Starting...");
                 VacuumController.runningOperations.put(vacuum.getId(), true);
-                Thread.sleep(5000);
+                Thread.sleep(15000);
                 vacuum.setStatus(Status.RUNNING);
                 this.vacuumRepository.save(vacuum);
                 VacuumController.runningOperations.remove(vacuum.getId());
@@ -80,7 +80,7 @@ public class VacuumService implements IService<Vacuum, Long>{
             {
                 System.out.println("Stopping...");
                 VacuumController.runningOperations.put(vacuum.getId(), true);
-                Thread.sleep(5000);
+                Thread.sleep(15000);
                 vacuum.setStatus(Status.STOPPED);
                 Vacuum newVacuum = this.vacuumRepository.save(vacuum);
                 int cycleCounter = 0;
@@ -128,43 +128,42 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.taskScheduler.schedule(() -> {
             System.out.println("Scheduled operation...");
 
-            ErrorMessage errorMessage = null;
+            String message = "";
 
             Optional<Vacuum> optionalVacuum = this.findById(id);
             if(optionalVacuum.isPresent()){
                 Vacuum vacuum = optionalVacuum.get();
-                if(!VacuumController.runningOperations.containsKey(id)) {
-                    if(operation.equals("start") && vacuum.getStatus().equals(Status.STOPPED)){
-                        this.startVacuum(vacuum);
-                    }
-                    else if(operation.equals("stop") && vacuum.getStatus().equals(Status.RUNNING)){
-                        this.stopVacuum(vacuum);
-                    }
-                    else if(operation.equals("discharge") && vacuum.getStatus().equals(Status.STOPPED)){
-                        this.dischargeVacuum(vacuum);
+                if(vacuum.isActive()){
+                    if(!VacuumController.runningOperations.containsKey(id)) {
+                        if(operation.equals("start") && vacuum.getStatus().equals(Status.STOPPED)){
+                            this.startVacuum(vacuum);
+                        }
+                        else if(operation.equals("stop") && vacuum.getStatus().equals(Status.RUNNING)){
+                            this.stopVacuum(vacuum);
+                        }
+                        else if(operation.equals("discharge") && vacuum.getStatus().equals(Status.STOPPED)){
+                            this.dischargeVacuum(vacuum);
+                        }
+                        else{
+                            message = "Vacuum is not in corresponding state";
+                            System.out.println("Vacuum is not in corresponding state");
+                            //Vacuum is not in adequate state
+                        }
                     }
                     else{
-                        String message = "Vacuum is not in corresponding state";
-                        errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
-                        System.out.println("Vacuum is not in corresponding state");
-                        //Vacuum is not in adequate state
+                        message = "Vacuum is busy";
+                        System.out.println("Vacuum is busy");
+                        //Operation is running on given vacuum
                     }
                 }
                 else{
-                    String message = "Vacuum is busy";
-                    errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
-                    System.out.println("Vacuum is busy");
-                    //Operation is running on given vacuum
+                    message = "Vacuum is removed";
+                    System.out.println("Vacuum is removed");
+                    //Vacuum is removed
                 }
             }
-            else{
-                String message = "Vacuum is removed";
-                errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
-                System.out.println("Vacuum is removed");
-                //Vacuum is removed
-            }
-
-            if(errorMessage != null) {
+            if(!message.equals("")) {
+                ErrorMessage errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
                 this.errorRepository.save(errorMessage);
             }
 

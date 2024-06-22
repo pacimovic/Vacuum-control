@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
+@Table(name = "error")
 public class ErrorMessage {
     public ErrorMessage(LocalDate date, Long vacuumId, String operation, String message) {
         this.date = date;

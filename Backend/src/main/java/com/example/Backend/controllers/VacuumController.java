@@ -74,7 +74,7 @@ public class VacuumController {
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum")) &&
                         !runningOperations.containsKey(id)){ //ako se neka operacija vec ne izvrsava nad datim usisivacem
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
-            if(optionalVacuum.isPresent()){
+            if(optionalVacuum.isPresent() && optionalVacuum.get().isActive()){
                 Vacuum vacuum = optionalVacuum.get();
                 if(vacuum.getStatus().equals(Status.STOPPED) && // da li je u stanju STOPPED
                         vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){ //provera da li usisivac odgovara ulogovanom user-u
@@ -94,7 +94,7 @@ public class VacuumController {
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_stop_vacuum")) &&
                     !runningOperations.containsKey(id)){
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
-            if(optionalVacuum.isPresent()){
+            if(optionalVacuum.isPresent() && optionalVacuum.get().isActive()){
                 Vacuum vacuum = optionalVacuum.get();
                 if(vacuum.getStatus().equals(Status.RUNNING) &&
                         vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
@@ -115,7 +115,7 @@ public class VacuumController {
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_discharge_vacuum")) &&
                 !runningOperations.containsKey(id)){
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
-            if(optionalVacuum.isPresent()){
+            if(optionalVacuum.isPresent() && optionalVacuum.get().isActive()){
                 Vacuum vacuum = optionalVacuum.get();
                 if(vacuum.getStatus().equals(Status.STOPPED) &&
                         vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
