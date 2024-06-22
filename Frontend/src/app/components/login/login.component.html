@@ -1,0 +1,19 @@
+<div class="container">
+    <form (submit)="login()">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input [(ngModel)]="loginRequest.email" name="userEmail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <div class="error-message text-danger" *ngIf="loginRequest.email===''"> Email is required! </div>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input [(ngModel)]="loginRequest.password" name="userPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <div class="error-message text-danger" *ngIf="loginRequest.password===''"> Password is required! </div>
+        </div>
+        <br>
+        <button [disabled]="loginRequest.email==='' || loginRequest.password===''" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

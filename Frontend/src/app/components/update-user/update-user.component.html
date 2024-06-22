@@ -1,0 +1,44 @@
+<div class="container">
+    <h3>Update User</h3>
+    <br>
+    <form (submit)="updateUser()">
+        <div class="form-group">
+            <label for="exampleInputName"><b>Name</b></label>
+            <input [(ngModel)]="user.name" name="name" type="text" class="form-control" id="exampleInputName" placeholder="Enter name">
+            <div class="error-message text-danger" *ngIf="user.name===''"> Name is required! </div>
+        </div><br>
+        <div class="form-group">
+            <label for="exampleInputSurname"><b>Surname</b></label>
+            <input [(ngModel)]="user.surname" name="surname" class="form-control" id="exampleInputSurname" placeholder="Enter surname">
+            <div class="error-message text-danger" *ngIf="user.surname===''"> Surname is required! </div>
+        </div><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1"><b>Email</b></label>
+            <input [(ngModel)]="user.email" name="email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+            <div class="error-message text-danger" *ngIf="user.email===''"> Email is required! </div>
+        </div><br>
+        <div class="form-group">
+            <label for="exampleInputPassword1"><b>Password</b></label>
+            <input [(ngModel)]="user.password" name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <div class="error-message text-danger" *ngIf="user.password===''"> Password is required! </div>
+        </div><br>
+        <b>Permissions:</b>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_create_users" name="create" type="checkbox" class="form-check-input" id="create">
+            <label class="form-check-label" for="create">Create</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_read_users" name="read" type="checkbox" class="form-check-input" id="read">
+            <label class="form-check-label" for="read">Read</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_update_users" name="update" type="checkbox" class="form-check-input" id="update">
+            <label class="form-check-label" for="update">Update</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_delete_users" name="delete" type="checkbox" class="form-check-input" id="delete">
+            <label class="form-check-label" for="delete">Delete</label>
+        </div><br>
+        <button [disabled]="user.name==='' || user.password==='' || user.surname==='' || user.email===''" type="submit" class="btn btn-primary">Update User</button>
+    </form>
+</div>

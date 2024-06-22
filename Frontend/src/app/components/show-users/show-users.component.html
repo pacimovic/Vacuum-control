@@ -1,0 +1,25 @@
+<div *ngIf="users.length > 0" class="container">
+    <br>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Surname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Permission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>{{user.name}}</td>
+            <td>{{user.surname}}</td>
+            <td>
+              <a *ngIf="appService.permission != null && appService.permission.can_update_users != false" [routerLink]="'/updateUser/'+user.userId">{{user.email}}</a>
+              <a *ngIf="appService.permission == null || appService.permission.can_update_users == false">{{user.email}}</a>
+            </td>
+            <td>{{user | permissions}}</td>
+            <td *ngIf="appService.permission != null && appService.permission.can_update_users != false"><button (click)="deleteUser(user.userId)" type="button" class="btn btn-danger">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
