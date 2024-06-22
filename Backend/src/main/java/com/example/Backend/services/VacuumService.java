@@ -2,11 +2,12 @@ package com.example.Backend.services;
 
 import com.example.Backend.controllers.VacuumController;
 import com.example.Backend.enums.Status;
+import com.example.Backend.model.ErrorMessage;
 import com.example.Backend.model.ScheduleDate;
 import com.example.Backend.model.User;
 import com.example.Backend.model.Vacuum;
+import com.example.Backend.repositories.ErrorRepository;
 import com.example.Backend.repositories.VacuumRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Async;
@@ -22,10 +23,13 @@ public class VacuumService implements IService<Vacuum, Long>{
 
     private final VacuumRepository vacuumRepository;
 
+    private final ErrorRepository errorRepository;
+
     private TaskScheduler taskScheduler;
 
-    public VacuumService(VacuumRepository vacuumRepository, TaskScheduler taskScheduler) {
+    public VacuumService(VacuumRepository vacuumRepository, ErrorRepository errorRepository, TaskScheduler taskScheduler) {
         this.vacuumRepository = vacuumRepository;
+        this.errorRepository = errorRepository;
         this.taskScheduler = taskScheduler;
     }
 
@@ -124,6 +128,8 @@ public class VacuumService implements IService<Vacuum, Long>{
         this.taskScheduler.schedule(() -> {
             System.out.println("Scheduled operation...");
 
+            ErrorMessage errorMessage = null;
+
             Optional<Vacuum> optionalVacuum = this.findById(id);
             if(optionalVacuum.isPresent()){
                 Vacuum vacuum = optionalVacuum.get();
@@ -138,16 +144,30 @@ public class VacuumService implements IService<Vacuum, Long>{
                         this.dischargeVacuum(vacuum);
                     }
                     else{
+                        String message = "Vacuum is not in corresponding state";
+                        errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
+                        System.out.println("Vacuum is not in corresponding state");
                         //Vacuum is not in adequate state
                     }
                 }
                 else{
+                    String message = "Vacuum is busy";
+                    errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
+                    System.out.println("Vacuum is busy");
                     //Operation is running on given vacuum
                 }
             }
             else{
+                String message = "Vacuum is removed";
+                errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
+                System.out.println("Vacuum is removed");
                 //Vacuum is removed
             }
+
+            if(errorMessage != null) {
+                this.errorRepository.save(errorMessage);
+            }
+
         }, cronTrigger);
     }
 
