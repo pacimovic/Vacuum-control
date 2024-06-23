@@ -16,7 +16,7 @@ export class CreateUserComponent {
 
 
   user: User = {
-    userId: 0,
+    id: 0,
     name: '',
     surname: '',
     email: '',
@@ -25,7 +25,13 @@ export class CreateUserComponent {
         can_create_users: false,
         can_read_users: false,
         can_update_users: false,
-        can_delete_users: false
+        can_delete_users: false,
+        can_search_vacuum: false,
+        can_start_vacuum: false,
+        can_stop_vacuum: false,
+        can_discharge_vacuum: false,
+        can_add_vacuum: false,
+        can_remove_vacuum: false
     }
   }
 

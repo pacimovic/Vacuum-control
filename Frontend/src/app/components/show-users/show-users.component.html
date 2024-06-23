@@ -14,11 +14,11 @@
             <td>{{user.name}}</td>
             <td>{{user.surname}}</td>
             <td>
-              <a *ngIf="appService.permission != null && appService.permission.can_update_users != false" [routerLink]="'/updateUser/'+user.userId">{{user.email}}</a>
+              <a *ngIf="appService.permission != null && appService.permission.can_update_users != false" [routerLink]="'/updateUser/'+user.id">{{user.email}}</a>
               <a *ngIf="appService.permission == null || appService.permission.can_update_users == false">{{user.email}}</a>
             </td>
             <td>{{user | permissions}}</td>
-            <td *ngIf="appService.permission != null && appService.permission.can_update_users != false"><button (click)="deleteUser(user.userId)" type="button" class="btn btn-danger">Delete</button></td>
+            <td *ngIf="appService.permission != null && appService.permission.can_update_users != false"><button (click)="deleteUser(user.id)" type="button" class="btn btn-danger">Delete</button></td>
           </tr>
         </tbody>
       </table>
