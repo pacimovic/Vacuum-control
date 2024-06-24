@@ -19,6 +19,14 @@ export interface LoginRequest {
     password: string
 }
 
+export interface Vacuum {
+    id: number,
+    name: string,
+    status: string,
+    created: string,
+    active: boolean,
+}
+
 export interface User {
     id: number,
     name: string,
