@@ -30,6 +30,7 @@ public class Vacuum {
     private boolean active;
 
     @Version
+    @JsonIgnore
     private Integer version = 0;
 
 
