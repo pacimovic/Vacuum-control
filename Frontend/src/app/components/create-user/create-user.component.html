@@ -38,7 +38,32 @@
         <div class="form-check">
             <input [(ngModel)]="user.permission.can_delete_users" name="delete" type="checkbox" class="form-check-input" id="delete">
             <label class="form-check-label" for="delete">Delete</label>
-        </div><br>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_search_vacuum" name="search" type="checkbox" class="form-check-input" id="search">
+            <label class="form-check-label" for="search">Search vacuums</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_start_vacuum" name="start" type="checkbox" class="form-check-input" id="start">
+            <label class="form-check-label" for="start">Start vacuums</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_stop_vacuum" name="stop" type="checkbox" class="form-check-input" id="stop">
+            <label class="form-check-label" for="stop">Stop vacuums</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_discharge_vacuum" name="discharge" type="checkbox" class="form-check-input" id="discharge">
+            <label class="form-check-label" for="discharge">Discharge vacuums</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_add_vacuum" name="add" type="checkbox" class="form-check-input" id="add">
+            <label class="form-check-label" for="add">Add vacuums</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_remove_vacuum" name="remove" type="checkbox" class="form-check-input" id="remove">
+            <label class="form-check-label" for="remove">Remove vacuums</label>
+        </div>
+        <br>
         <button [disabled]="user.name==='' || user.password==='' || user.surname==='' || user.email===''" type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

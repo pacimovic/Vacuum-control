@@ -1,12 +1,13 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
-        <div class="navbar-nav ">
+      <div class="collapse navbar-collapse justify-content-around" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
           <a [routerLink]="'/login'" class="nav-link active" aria-current="page">Login</a>
           <a [routerLink]="'/showUsers'" class="nav-link active" aria-current="page">All Users</a>
           <a *ngIf="appService.permission != null && appService.permission.can_create_users != false" [routerLink]="'/createUser'" class="nav-link active" aria-current="page">New User</a>
         </div>
+        <button class="btn btn-outline-dark" >Search vacuum cleaners</button>
       </div>
     </div>
   </nav>

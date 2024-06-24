@@ -10,6 +10,7 @@ import { ShowUsersComponent } from './components/show-users/show-users.component
 import { PermissionsPipe } from './pipes/permissions.pipe';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { UpdateUserComponent } from './components/update-user/update-user.component';
+import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
     ShowUsersComponent,
     CreateUserComponent,
     PermissionsPipe,
-    UpdateUserComponent
+    UpdateUserComponent,
+    SearchVacuumsComponent
   ],
   imports: [
     BrowserModule,
