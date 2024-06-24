@@ -1,1 +1,20 @@
-<p>search-vacuums works!</p>
+<div *ngIf="vacuums.length > 0" class="container">
+    <h2>Vacuums</h2>
+    <br>
+    <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let vacuum of vacuums">
+            <td>{{vacuum.name}}</td>
+            <td>{{vacuum.status}}</td>
+            <td>{{vacuum.created}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
