@@ -6,6 +6,7 @@ import { authGuard } from './guards/auth.guard';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { permissionGuard } from './guards/permission.guard';
 import { UpdateUserComponent } from './components/update-user/update-user.component';
+import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,12 @@ const routes: Routes = [
     path: 'updateUser/:id',
     component: UpdateUserComponent,
     canActivate: [authGuard, permissionGuard]
-  }
+  },
+  {
+    path: 'searchVacuums',
+    component: SearchVacuumsComponent,
+    canActivate: [authGuard, permissionGuard]
+  },
 ];
 
 @NgModule({

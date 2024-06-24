@@ -7,7 +7,7 @@
           <a [routerLink]="'/showUsers'" class="nav-link active" aria-current="page">All Users</a>
           <a *ngIf="appService.permission != null && appService.permission.can_create_users != false" [routerLink]="'/createUser'" class="nav-link active" aria-current="page">New User</a>
         </div>
-        <button class="btn btn-outline-dark" >Search vacuum cleaners</button>
+        <button class="btn btn-outline-dark" [routerLink]="'/searchVacuums'">Search vacuum cleaners</button>
       </div>
     </div>
   </nav>
