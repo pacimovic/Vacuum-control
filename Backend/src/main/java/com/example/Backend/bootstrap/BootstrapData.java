@@ -76,14 +76,15 @@ public class BootstrapData implements CommandLineRunner {
         user1.setPermission(permission1);
 
         List<Vacuum> vacuums = new ArrayList<>();
-        for(int i = 1; i <= 3 ; i++){
+        for(int i = 1; i <= 6 ; i++){
             Vacuum vacuum = new Vacuum();
             vacuum.setName("Bosch_" + i);
             if(i%2 == 0) vacuum.setStatus(Status.RUNNING);
             else vacuum.setStatus(Status.STOPPED);
             vacuum.setUser(user);
             vacuum.setActive(true);
-            vacuum.setCreated(LocalDate.now());
+            if(i == 1 || i == 2) vacuum.setCreated(LocalDate.of(2024, 6, 18));
+            else vacuum.setCreated(LocalDate.now());
 
             vacuums.add(vacuum);
         }

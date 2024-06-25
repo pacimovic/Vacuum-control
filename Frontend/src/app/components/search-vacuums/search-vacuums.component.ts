@@ -11,6 +11,15 @@ export class SearchVacuumsComponent implements OnInit{
 
   vacuums: Vacuum[] = []
 
+  name: string = ''
+  statuses: string[] = []
+  running: boolean = false
+  stopped: boolean = false
+  discharging: boolean = false
+  dateFrom: string = ''
+  dateTo: string = ''
+
+
   constructor(private vacuumService: VacuumService){}
 
 
@@ -19,6 +28,22 @@ export class SearchVacuumsComponent implements OnInit{
       this.vacuums = vacuumsRes
       console.log(this.vacuums)
     })
+  }
+
+  submitForm(): void {
+    console.log('name: ' + this.name)
+    console.log('running:' + this.running)
+    console.log('stopped:' + this.stopped)
+    console.log('discharging:' + this.discharging)
+    console.log('dateFrom:' + this.dateFrom)
+    console.log('dateTo: ' + this.dateTo)
+
+    this.name = ''
+    this.running = false
+    this.stopped = false
+    this.discharging = false
+    this.dateFrom = ''
+    this.dateTo = ''
   }
 
 
