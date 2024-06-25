@@ -7,6 +7,7 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { permissionGuard } from './guards/permission.guard';
 import { UpdateUserComponent } from './components/update-user/update-user.component';
 import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
+import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: 'searchVacuums',
     component: SearchVacuumsComponent,
+    canActivate: [authGuard, permissionGuard]
+  },
+  {
+    path: 'createVacuum',
+    component: CreateVacuumComponent,
     canActivate: [authGuard, permissionGuard]
   },
 ];

@@ -3,9 +3,10 @@
     <div class="container-fluid">
       <div class="collapse navbar-collapse justify-content-around" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a [routerLink]="'/login'" class="nav-link active" aria-current="page">Login</a>
+          <a [routerLink]="'/login'" class="nav-link active " aria-current="page">Login</a>
           <a [routerLink]="'/showUsers'" class="nav-link active" aria-current="page">All Users</a>
           <a *ngIf="appService.permission != null && appService.permission.can_create_users != false" [routerLink]="'/createUser'" class="nav-link active" aria-current="page">New User</a>
+          <a *ngIf="appService.permission != null && appService.permission.can_add_vacuum != false" [routerLink]="'/createVacuum'" class="nav-link active" aria-current="page">New Vacuum</a>
         </div>
         <button class="btn btn-outline-dark" [routerLink]="'/searchVacuums'">Search vacuum cleaners</button>
       </div>

@@ -44,7 +44,8 @@ public class VacuumController {
         vacuum.setCreated(LocalDate.now());
 
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum")))
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum")) &&
+                !vacuum.getName().equals(""))
             return ResponseEntity.ok(vacuumService.save(vacuum));
 
         return ResponseEntity.status(403).build();

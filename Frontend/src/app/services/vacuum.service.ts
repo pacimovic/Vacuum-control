@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { Vacuum } from '../model';
+import { NewVacuum, Vacuum } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,6 @@ export class VacuumService {
   constructor(private httpClient: HttpClient) { }
 
   getVacuums(name: string, statuses: string[], dateFrom: string, dateTo: string): Observable<Vacuum[]> {
-    //let statuses: string[] = ['STOPPED', 'RUNNING'];
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -30,6 +29,16 @@ export class VacuumService {
     }
     return this.httpClient.get<Vacuum[]>(`${this.apiUrl}/search`, httpOptions).
     pipe(catchError(this.handleError))
+  }
+
+  createVacuum(vacuum: NewVacuum): Observable<Vacuum> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      })
+    }
+    return this.httpClient.post<Vacuum>(this.apiUrl, vacuum, httpOptions).
+    pipe(catchError(this.handleError));
   }
 
 

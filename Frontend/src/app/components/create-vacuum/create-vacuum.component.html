@@ -1,0 +1,14 @@
+<div class="container">
+    <h3>Create Vacuum</h3>
+    <br>
+    <form (submit)="createVacuum()" class="row g-3">
+      <div class="col-md-7">
+        <label for="inputName" class="form-label">Name:</label>
+        <input [(ngModel)]="vacuum.name" name="name" type="text" class="form-control" id="inputName" placeholder="Vacuum cleaner name">
+        <div class="error-message text-danger" *ngIf="vacuum.name===''"> Name is required! </div>
+      </div>
+      <div class="col-12">
+        <button [disabled]="vacuum.name === ''" type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+</div>

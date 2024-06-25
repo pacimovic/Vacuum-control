@@ -27,6 +27,10 @@ export interface Vacuum {
     active: boolean,
 }
 
+export interface NewVacuum {
+    name: string
+}
+
 export interface User {
     id: number,
     name: string,

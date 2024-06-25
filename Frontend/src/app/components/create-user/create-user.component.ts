@@ -38,7 +38,6 @@ export class CreateUserComponent {
 
   createUser(): void {
     this.userService.createUser(this.user).subscribe(user => {
-      console.log(user)
       alert('User Created!')
       this.router.navigate(['showUsers'])
     })
