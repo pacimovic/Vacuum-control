@@ -1,4 +1,4 @@
-<div *ngIf="vacuums.length > 0" class="container">
+<div class="container">
     <hr>
     <h2>Search</h2>
     <form (submit)="submitForm()" class="row g-3">
@@ -33,7 +33,7 @@
     <hr>
     <h2>Vacuum cleaners</h2>
     <br>
-    <table class="table table-striped table-bordered">
+    <table *ngIf="vacuums.length > 0" class="table table-striped table-bordered">
         <thead>
           <tr>
             <th scope="col">Name</th>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Vacuum } from 'src/app/model';
 import { VacuumService } from 'src/app/services/vacuum.service';
+import { parse, isValid, format } from 'date-fns';
 
 @Component({
   selector: 'app-search-vacuums',
@@ -26,17 +27,28 @@ export class SearchVacuumsComponent implements OnInit{
   ngOnInit(): void {
     this.vacuumService.getVacuums('', [''], '', '').subscribe( vacuumsRes => {
       this.vacuums = vacuumsRes
-      console.log(this.vacuums)
     })
   }
 
   submitForm(): void {
-    console.log('name: ' + this.name)
-    console.log('running:' + this.running)
-    console.log('stopped:' + this.stopped)
-    console.log('discharging:' + this.discharging)
-    console.log('dateFrom:' + this.dateFrom)
-    console.log('dateTo: ' + this.dateTo)
+    if(this.dateFrom != '' && !this.isDateInFormat(this.dateFrom,"yyyy-MM-dd")){
+      alert('Date is not valid!')
+    }
+    else if(this.dateTo != '' && !this.isDateInFormat(this.dateTo,"yyyy-MM-dd")){
+      alert('Date is not valid!')
+    }
+    else{
+      if(this.running) this.statuses.push('RUNNING')
+      if(this.stopped) this.statuses.push('STOPPED')
+      if(this.discharging) this.statuses.push('DISCHARGING')
+      if(this.statuses.length == 0) this.statuses = ['']
+
+      this.vacuumService.getVacuums(this.name, this.statuses, this.dateFrom, this.dateTo).subscribe( vacuumsRes => {
+        this.vacuums = vacuumsRes
+      })
+    
+    } 
+
 
     this.name = ''
     this.running = false
@@ -44,7 +56,15 @@ export class SearchVacuumsComponent implements OnInit{
     this.discharging = false
     this.dateFrom = ''
     this.dateTo = ''
+    this.statuses = []
   }
 
 
+
+  isDateInFormat(dateStr: string, formatStr: string): boolean {
+    const parsedDate = parse(dateStr, formatStr, new Date());
+    return isValid(parsedDate) && format(parsedDate, formatStr) === dateStr;
+  }
 }
+
+
