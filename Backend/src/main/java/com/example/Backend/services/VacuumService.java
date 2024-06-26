@@ -54,6 +54,10 @@ public class VacuumService implements IService<Vacuum, Long>{
     }
 
 
+    public Optional<Vacuum> findByName(String name) {
+        return this.vacuumRepository.findByName(name);
+    }
+
     @Async
     public void startVacuum(Vacuum vacuum) {
         try {

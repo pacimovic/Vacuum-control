@@ -43,6 +43,9 @@ public class VacuumController {
         vacuum.setActive(true);
         vacuum.setCreated(LocalDate.now());
 
+        Optional<Vacuum> optionalVacuum = this.vacuumService.findByName(vacuum.getName());
+        if(optionalVacuum.isPresent()) return ResponseEntity.status(418).build();
+
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum")) &&
                 !vacuum.getName().equals(""))
