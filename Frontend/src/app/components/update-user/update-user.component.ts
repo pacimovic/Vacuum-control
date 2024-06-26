@@ -12,6 +12,8 @@ export class UpdateUserComponent implements OnInit{
 
   router = inject(Router)
 
+  constructor(private route: ActivatedRoute, private userService: UserService) {}
+
   user: User = {
     id: 0,
     name: '',
@@ -31,8 +33,6 @@ export class UpdateUserComponent implements OnInit{
         can_remove_vacuum: false
     }
   }
-
-  constructor(private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit(): void {
     const id: number = parseInt(<string>this.route.snapshot.paramMap.get('id'))

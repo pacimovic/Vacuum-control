@@ -25,20 +25,45 @@
         <b>Permissions:</b>
         <div class="form-check">
             <input [(ngModel)]="user.permission.can_create_users" name="create" type="checkbox" class="form-check-input" id="create">
-            <label class="form-check-label" for="create">Create</label>
+            <label class="form-check-label" for="create">Create user</label>
         </div>
         <div class="form-check">
             <input [(ngModel)]="user.permission.can_read_users" name="read" type="checkbox" class="form-check-input" id="read">
-            <label class="form-check-label" for="read">Read</label>
+            <label class="form-check-label" for="read">Read users</label>
         </div>
         <div class="form-check">
             <input [(ngModel)]="user.permission.can_update_users" name="update" type="checkbox" class="form-check-input" id="update">
-            <label class="form-check-label" for="update">Update</label>
+            <label class="form-check-label" for="update">Update user</label>
         </div>
         <div class="form-check">
             <input [(ngModel)]="user.permission.can_delete_users" name="delete" type="checkbox" class="form-check-input" id="delete">
-            <label class="form-check-label" for="delete">Delete</label>
-        </div><br>
+            <label class="form-check-label" for="delete">Delete user</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_search_vacuum" name="search" type="checkbox" class="form-check-input" id="search">
+            <label class="form-check-label" for="search">Search vacuums</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_start_vacuum" name="start" type="checkbox" class="form-check-input" id="start">
+            <label class="form-check-label" for="start">Start vacuum</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_stop_vacuum" name="stop" type="checkbox" class="form-check-input" id="stop">
+            <label class="form-check-label" for="stop">Stop vacuum</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_discharge_vacuum" name="discharge" type="checkbox" class="form-check-input" id="discharge">
+            <label class="form-check-label" for="discharge">Discharge vacuum</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_add_vacuum" name="add" type="checkbox" class="form-check-input" id="add">
+            <label class="form-check-label" for="add">Add vacuum</label>
+        </div>
+        <div class="form-check">
+            <input [(ngModel)]="user.permission.can_remove_vacuum" name="remove" type="checkbox" class="form-check-input" id="remove">
+            <label class="form-check-label" for="remove">Remove vacuum</label>
+        </div>
+        <br>
         <button [disabled]="user.name==='' || user.password==='' || user.surname==='' || user.email===''" type="submit" class="btn btn-primary">Update User</button>
     </form>
 </div>
