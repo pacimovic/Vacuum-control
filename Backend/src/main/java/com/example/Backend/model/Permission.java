@@ -26,8 +26,7 @@ public class Permission {
     private boolean can_add_vacuum;
     private boolean can_remove_vacuum;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    @JsonBackReference
+    @OneToOne(mappedBy = "permission", fetch = FetchType.EAGER)
+    @JsonIgnore
     private User user;
 }

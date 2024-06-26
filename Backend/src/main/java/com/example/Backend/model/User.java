@@ -31,7 +31,7 @@ public class User {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JoinColumn(name = "PERMISSION_ID", referencedColumnName = "ID")
     private Permission permission;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
