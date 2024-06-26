@@ -23,6 +23,14 @@ export const permissionGuard: CanActivateFn = (route, state) => {
     window.alert("You dont have permission for this page!")
     router.navigate(['login'])
   }
+  else if(routePath === 'searchVacuums' && permission.can_search_vacuum == false){
+    window.alert("You dont have permission for this page!")
+    router.navigate(['login'])
+  }
+  else if(routePath === 'createVacuum' && permission.can_add_vacuum == false){
+    window.alert("You dont have permission for this page!")
+    router.navigate(['login'])
+  }
 
 
   return true;
