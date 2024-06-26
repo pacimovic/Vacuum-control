@@ -1,6 +1,7 @@
 package com.example.Backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 
@@ -30,6 +31,7 @@ public class User {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Permission permission;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
