@@ -55,7 +55,7 @@ public class AuthController {
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum"))) permission.setCan_search_vacuum(true);
         else permission.setCan_search_vacuum(false);
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))) permission.setCan_start_vacuum(true);
-        else permission.setCan_search_vacuum(false);
+        else permission.setCan_start_vacuum(false);
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_stop_vacuum"))) permission.setCan_stop_vacuum(true);
         else permission.setCan_stop_vacuum(false);
         if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_discharge_vacuum"))) permission.setCan_discharge_vacuum(true);

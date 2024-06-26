@@ -20,7 +20,6 @@ export class LoginComponent {
   login(): void {
     //console.log('Email: ' + this.loginRequest.email + ' ,Password: ' + this.loginRequest.password)
     this.loginService.login(this.loginRequest).subscribe(loginResponse => {
-      //console.log(loginResponse)
 
       //cuvanje jwt-a u local storage
       localStorage.removeItem('jwt')

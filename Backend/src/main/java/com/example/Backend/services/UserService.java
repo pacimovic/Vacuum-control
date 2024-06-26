@@ -1,6 +1,5 @@
 package com.example.Backend.services;
 
-import com.example.Backend.model.Permission;
 import com.example.Backend.model.User;
 import com.example.Backend.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
