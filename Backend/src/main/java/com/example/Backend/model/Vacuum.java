@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Data
@@ -16,6 +17,7 @@ public class Vacuum {
     private Long id;
 
     @Column(unique = true)
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     private Status status;
