@@ -74,6 +74,8 @@ export class UserService {
       console.error('An error occurred:', error.error);
     } else if(error.status === 403) {
       alert('You dont have permission for this resource!')
+    } else if(error.status === 418) {
+      alert('User with given email already exists!')
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));

@@ -37,6 +37,9 @@ public class UserController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> createUser(@Valid @RequestBody User user){
+        User existingUser = userService.findByEmail(user.getEmail());
+        if(existingUser != null) return ResponseEntity.status(418).build();
+
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_create_users")))
