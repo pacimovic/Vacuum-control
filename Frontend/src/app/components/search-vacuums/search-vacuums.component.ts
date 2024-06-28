@@ -60,11 +60,11 @@ export class SearchVacuumsComponent implements OnInit{
   }
 
 
-
   isDateInFormat(dateStr: string, formatStr: string): boolean {
     const parsedDate = parse(dateStr, formatStr, new Date());
     return isValid(parsedDate) && format(parsedDate, formatStr) === dateStr;
   }
+
 }
 
 

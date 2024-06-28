@@ -44,7 +44,7 @@
         <tbody>
           <tr *ngFor="let vacuum of vacuums">
             <td>{{vacuum.name}}</td>
-            <td>{{vacuum.status}}</td>
+            <td [ngStyle]="{'color': vacuum.status === 'STOPPED' ? 'red' : (vacuum.status === 'RUNNING' ? 'green' : (vacuum.status === 'DISCHARGING' ? 'blue' : null)) }">{{vacuum.status}}</td>
             <td>{{vacuum.created}}</td>
           </tr>
         </tbody>
