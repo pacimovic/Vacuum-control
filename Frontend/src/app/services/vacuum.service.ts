@@ -41,6 +41,16 @@ export class VacuumService {
     pipe(catchError(this.handleError));
   }
 
+  findVacuum(id: number): Observable<Vacuum> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      })
+    }
+    return this.httpClient.get<Vacuum>(`${this.apiUrl}/${id}`, httpOptions).
+    pipe(catchError(this.handleError))
+  }
+
 
 
   private handleError(error: HttpErrorResponse){

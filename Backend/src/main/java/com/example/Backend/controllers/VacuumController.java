@@ -169,6 +169,16 @@ public class VacuumController {
         return ResponseEntity.status(403).build();
     }
 
+    @GetMapping(value = "/{vacuumId}")
+    public ResponseEntity<?> findVacuum(@PathVariable Long vacuumId){
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum"))){
+            return ResponseEntity.ok(vacuumService.findById(vacuumId));
+        }
+
+        return ResponseEntity.status(403).build();
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteVacuum(@PathVariable Long id) {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
@@ -177,7 +187,6 @@ public class VacuumController {
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
             if(optionalVacuum.isPresent()){
                 Vacuum vacuum = optionalVacuum.get();
-
                 if(vacuum.getStatus() == Status.STOPPED){
                     vacuum.setActive(false);
                     this.vacuumService.save(vacuum);
@@ -185,9 +194,7 @@ public class VacuumController {
                 }
             }
             else return ResponseEntity.status(404).build();
-
         }
-
         return ResponseEntity.status(403).build();
     }
 

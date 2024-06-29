@@ -8,6 +8,7 @@ import { permissionGuard } from './guards/permission.guard';
 import { UpdateUserComponent } from './components/update-user/update-user.component';
 import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
 import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.component';
+import { SingleVacuumComponent } from './components/single-vacuum/single-vacuum.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,11 @@ const routes: Routes = [
     component: CreateVacuumComponent,
     canActivate: [authGuard, permissionGuard]
   },
+  {
+    path: 'singleVacuum/:id',
+    component: SingleVacuumComponent,
+    canActivate: [authGuard, permissionGuard]
+  }
 ];
 
 @NgModule({

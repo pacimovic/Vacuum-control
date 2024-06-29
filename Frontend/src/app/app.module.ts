@@ -12,6 +12,7 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { UpdateUserComponent } from './components/update-user/update-user.component';
 import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
 import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.component';
+import { SingleVacuumComponent } from './components/single-vacuum/single-vacuum.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.
     PermissionsPipe,
     UpdateUserComponent,
     SearchVacuumsComponent,
-    CreateVacuumComponent
+    CreateVacuumComponent,
+    SingleVacuumComponent
   ],
   imports: [
     BrowserModule,
