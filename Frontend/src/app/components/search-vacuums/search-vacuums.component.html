@@ -33,7 +33,7 @@
     <hr>
     <h2>Vacuum cleaners</h2>
     <br>
-    <table *ngIf="vacuums.length > 0" class="table table-striped table-bordered">
+    <table *ngIf="vacuums.length > 0" class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
             <th scope="col">Name</th>
@@ -42,9 +42,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let vacuum of vacuums">
+          <tr *ngFor="let vacuum of vacuums" [routerLink]="['/singleVacuum/', vacuum.id]">
             <td>{{vacuum.name}}</td>
-            <td [ngStyle]="{'color': vacuum.status === 'STOPPED' ? 'red' : (vacuum.status === 'RUNNING' ? 'green' : (vacuum.status === 'DISCHARGING' ? 'blue' : null)) }">{{vacuum.status}}</td>
+            <td class="d-flex align-items-center" [ngStyle]="{'color': vacuum.status === 'STOPPED' ? 'red' : 
+                (vacuum.status === 'RUNNING' ? 'green' : 
+                (vacuum.status === 'DISCHARGING' ? 'blue' : 
+                null)) }">{{vacuum.status}} 
+                <div *ngIf="vacuum.status === 'RUNNING'" class="spinner-border ms-auto" aria-hidden="true"></div>
+            </td>
             <td>{{vacuum.created}}</td>
           </tr>
         </tbody>

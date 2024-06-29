@@ -27,8 +27,6 @@ export class SingleVacuumComponent implements OnInit{
     const id: number = parseInt(<string> this.route.snapshot.paramMap.get('id'))
     this.vacuumService.findVacuum(id).subscribe( vacuum => {
       this.vacuum = vacuum
-      console.log(this.vacuum);
-      
     })
   }
 
