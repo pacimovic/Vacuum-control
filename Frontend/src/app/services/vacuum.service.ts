@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
@@ -51,7 +51,15 @@ export class VacuumService {
     pipe(catchError(this.handleError))
   }
 
-
+  startVacuum(id: number): Observable<Vacuum> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      })
+    }
+    return this.httpClient.put<Vacuum>(`${this.apiUrl}/start/${id}`, httpOptions).
+    pipe(catchError(this.handleError))
+  }
 
   private handleError(error: HttpErrorResponse){
     if (error.status === 0) {

@@ -1,4 +1,5 @@
 <div class="container">
+    <hr>
     <h3>Vacuum cleaner info:</h3>
     <br>
     <p>Name:</p>
@@ -8,17 +9,17 @@
     <h5 [ngStyle]="{'color': vacuum.status === 'STOPPED' ? 'red' : 
     (vacuum.status === 'RUNNING' ? 'green' : 
     (vacuum.status === 'DISCHARGING' ? 'blue' : 
-    null)) }"><strong>{{vacuum.status}}</strong></h5>
+    null)) }"><strong>{{vacuum.status}} </strong></h5>
     <br>
     <p>Creation date:</p>
     <h5><strong>{{vacuum.created}}</strong></h5>
     <br><br>
     <div class="row">
-        <div class="col-md-1"><button type="button" class="btn btn-success">START</button></div>
-        <div class="col-md-1"><button type="button" class="btn btn-danger">STOP</button></div>
-        <div class="col-md-1"><button type="button" class="btn btn-primary">DISCHARGE</button></div>
+        <div class="col-md-1"><button (click)="startVacuum()" [disabled]="vacuum.status != 'STOPPED'" type="button" class="btn btn-success">START</button></div>
+        <div class="col-md-1"><button [disabled]="vacuum.status != 'RUNNING'" type="button" class="btn btn-danger">STOP</button></div>
+        <div class="col-md-1"><button [disabled]="vacuum.status != 'STOPPED'" type="button" class="btn btn-primary">DISCHARGE</button></div>
     </div>
-
-
+    <br>
+    <hr>
 
 </div>

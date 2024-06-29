@@ -49,6 +49,7 @@
                 (vacuum.status === 'DISCHARGING' ? 'blue' : 
                 null)) }">{{vacuum.status}} 
                 <div *ngIf="vacuum.status === 'RUNNING'" class="spinner-border ms-auto" aria-hidden="true"></div>
+                <div *ngIf="vacuum.status === 'DISCHARGING'" class="spinner-border ms-auto" aria-hidden="true"></div>
             </td>
             <td>{{vacuum.created}}</td>
           </tr>

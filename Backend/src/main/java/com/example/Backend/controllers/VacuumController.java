@@ -75,16 +75,17 @@ public class VacuumController {
     @PutMapping(value = "/start/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> startVacuum(@PathVariable Long id) {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-
+        System.out.println("usao");
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum")) &&
                         !runningOperations.containsKey(id)){ //ako se neka operacija vec ne izvrsava nad datim usisivacem
+            System.out.println("usao u if uslov");
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
             if(optionalVacuum.isPresent() && optionalVacuum.get().isActive()){
                 Vacuum vacuum = optionalVacuum.get();
                 if(vacuum.getStatus().equals(Status.STOPPED) && // da li je u stanju STOPPED
                         vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){ //provera da li usisivac odgovara ulogovanom user-u
                     this.vacuumService.startVacuum(vacuum);
-                    return ResponseEntity.ok().build();
+                    return ResponseEntity.noContent().build();
                 }
             }
             else return ResponseEntity.status(404).build();
