@@ -51,13 +51,23 @@ export class VacuumService {
     pipe(catchError(this.handleError))
   }
 
-  startVacuum(id: number): Observable<Vacuum> {
+  startVacuum(vacuum: Vacuum): Observable<Vacuum> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('jwt')}`
       })
     }
-    return this.httpClient.put<Vacuum>(`${this.apiUrl}/start/${id}`, httpOptions).
+    return this.httpClient.put<Vacuum>(`${this.apiUrl}/start/${vacuum.id}`, vacuum, httpOptions).
+    pipe(catchError(this.handleError))
+  }
+
+  stopVacuum(vacuum: Vacuum): Observable<Vacuum> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      })
+    }
+    return this.httpClient.put<Vacuum>(`${this.apiUrl}/stop/${vacuum.id}`, vacuum, httpOptions).
     pipe(catchError(this.handleError))
   }
 

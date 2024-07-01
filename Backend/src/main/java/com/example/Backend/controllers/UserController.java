@@ -28,7 +28,6 @@ public class UserController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllUsers() {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_read_users")))
             return ResponseEntity.ok(userService.findAll());
 
@@ -40,7 +39,6 @@ public class UserController {
         User existingUser = userService.findByEmail(user.getEmail());
         if(existingUser != null) return ResponseEntity.status(418).build();
 
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_create_users")))
             return ResponseEntity.ok(userService.save(user));
@@ -50,7 +48,6 @@ public class UserController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateUser(@RequestBody User user) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_update_users")))
             return ResponseEntity.ok(userService.save(user));
@@ -60,7 +57,6 @@ public class UserController {
 
     @DeleteMapping(value = "/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_delete_users"))){
             userService.deleteById(userId);
             return ResponseEntity.noContent().build();
@@ -71,7 +67,6 @@ public class UserController {
 
     @GetMapping(value = "/{userId}")
     public ResponseEntity<?> findUser(@PathVariable Long userId){
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_read_users"))){
             return ResponseEntity.ok(userService.findById(userId));
         }

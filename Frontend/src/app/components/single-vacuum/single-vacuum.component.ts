@@ -30,10 +30,15 @@ export class SingleVacuumComponent implements OnInit{
     })
   }
 
-
   startVacuum(): void {
-    this.vacuumService.startVacuum(this.vacuum.id).subscribe((vacuum) => {
-      alert("Vacuum is starting...")
+    this.vacuumService.startVacuum(this.vacuum).subscribe((vacuum) => {
+      alert("Vacuum cleaner is starting...")
+    })
+  }
+
+  stopVacuum(): void {
+    this.vacuumService.stopVacuum(this.vacuum).subscribe((vacuum) => {
+      alert("Vacuum cleaner is stoping...")
     })
   }
 
