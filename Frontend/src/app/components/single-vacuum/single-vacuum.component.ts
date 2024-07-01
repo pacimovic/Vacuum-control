@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Vacuum } from 'src/app/model';
+import { AppService } from 'src/app/services/app.service';
 import { VacuumService } from 'src/app/services/vacuum.service';
 
 @Component({
@@ -12,7 +13,9 @@ export class SingleVacuumComponent implements OnInit{
 
   router = inject(Router)
 
-  constructor(private route: ActivatedRoute, private vacuumService: VacuumService) {}
+  constructor(private route: ActivatedRoute, private vacuumService: VacuumService, 
+    public appService: AppService
+  ) {}
 
   vacuum: Vacuum = {
     id: 0,
@@ -45,6 +48,14 @@ export class SingleVacuumComponent implements OnInit{
   dischargeVacuum(): void {
     this.vacuumService.dischargeVacuum(this.vacuum).subscribe((vacuum) => {
       alert("Vacuum cleaner is discharging...")
+    })
+  }
+
+  
+  deleteVacuum(): void {
+    this.vacuumService.deleteVacuum(this.vacuum.id).subscribe((vacuum) => {
+      alert("Vacuum cleaner: " + this.vacuum.name + " is removed!")
+      this.router.navigate(['searchVacuums'])
     })
   }
 

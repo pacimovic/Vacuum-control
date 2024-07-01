@@ -81,6 +81,16 @@ export class VacuumService {
     pipe(catchError(this.handleError))
   }
 
+  deleteVacuum(id: number):  Observable<Vacuum> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      })
+    }
+    return this.httpClient.delete<Vacuum>(`${this.apiUrl}/${id}`, httpOptions).
+    pipe(catchError(this.handleError))
+  }
+
   private handleError(error: HttpErrorResponse){
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.

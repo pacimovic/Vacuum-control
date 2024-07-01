@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Vacuum } from 'src/app/model';
 import { VacuumService } from 'src/app/services/vacuum.service';
 import { parse, isValid, format } from 'date-fns';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-search-vacuums',
@@ -58,6 +59,7 @@ export class SearchVacuumsComponent implements OnInit{
     this.dateTo = ''
     this.statuses = []
   }
+
 
 
   isDateInFormat(dateStr: string, formatStr: string): boolean {

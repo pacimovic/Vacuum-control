@@ -19,7 +19,7 @@
               <a *ngIf="appService.permission == null || appService.permission.can_update_users == false">{{user.email}}</a>
             </td>
             <td>{{user | permissions}}</td>
-            <td *ngIf="appService.permission != null && appService.permission.can_update_users != false"><button (click)="deleteUser(user.id)" type="button" class="btn btn-danger">Delete</button></td>
+            <td *ngIf="appService.permission != null && appService.permission.can_delete_users != false"><button (click)="deleteUser(user.id)" type="button" class="btn btn-danger">Delete</button></td>
           </tr>
         </tbody>
       </table>
