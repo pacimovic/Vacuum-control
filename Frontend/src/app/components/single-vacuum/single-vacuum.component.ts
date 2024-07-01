@@ -42,4 +42,10 @@ export class SingleVacuumComponent implements OnInit{
     })
   }
 
+  dischargeVacuum(): void {
+    this.vacuumService.dischargeVacuum(this.vacuum).subscribe((vacuum) => {
+      alert("Vacuum cleaner is discharging...")
+    })
+  }
+
 }
