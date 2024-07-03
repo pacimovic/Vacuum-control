@@ -128,7 +128,9 @@ public class VacuumService implements IService<Vacuum, Long>{
 
     public void scheduleOperation(ScheduleDate scheduleDate, String operation, Long id) {
 
-        CronTrigger cronTrigger = new CronTrigger("0 * * * * *");
+        String expr = scheduleDate.getSecond() + " " + scheduleDate.getMinute() + " " + scheduleDate.getHour() + " " +
+                scheduleDate.getDayMonth() + " " + scheduleDate.getMonth() + " " + scheduleDate.getDayWeek();
+        CronTrigger cronTrigger = new CronTrigger(expr);
         this.taskScheduler.schedule(() -> {
             System.out.println("Scheduled operation...");
 
