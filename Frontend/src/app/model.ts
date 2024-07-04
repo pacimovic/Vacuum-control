@@ -40,6 +40,15 @@ export interface ScheduleDate {
     dayWeek: string
 }
 
+export interface ErrorMessage {
+    id: string,
+    date: string,
+    vacuumId: number,
+    userId: number,
+    operation: string,
+    message: string
+}
+
 export interface User {
     id: number,
     name: string,

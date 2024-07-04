@@ -9,6 +9,7 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
 import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
 import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.component';
 import { SingleVacuumComponent } from './components/single-vacuum/single-vacuum.component';
+import { ShowErrorsComponent } from './components/show-errors/show-errors.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,11 @@ const routes: Routes = [
     path: 'singleVacuum/:id',
     component: SingleVacuumComponent,
     canActivate: [authGuard, permissionGuard]
+  },
+  {
+    path: 'errors',
+    component: ShowErrorsComponent,
+    canActivate: [authGuard]
   }
 ];
 

@@ -15,6 +15,7 @@ import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.
 import { SingleVacuumComponent } from './components/single-vacuum/single-vacuum.component';
 import { MonthNamePipe } from './pipes/month-name.pipe';
 import { WeekDayPipe } from './pipes/week-day.pipe';
+import { ShowErrorsComponent } from './components/show-errors/show-errors.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { WeekDayPipe } from './pipes/week-day.pipe';
     CreateVacuumComponent,
     SingleVacuumComponent,
     MonthNamePipe,
-    WeekDayPipe
+    WeekDayPipe,
+    ShowErrorsComponent
   ],
   imports: [
     BrowserModule,

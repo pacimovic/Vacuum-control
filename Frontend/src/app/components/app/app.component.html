@@ -8,8 +8,12 @@
           <a *ngIf="appService.permission != null && appService.permission.can_create_users != false" [routerLink]="'/createUser'" class="nav-link active" aria-current="page">New User</a>
           <a *ngIf="appService.permission != null && appService.permission.can_add_vacuum != false" [routerLink]="'/createVacuum'" class="nav-link active" aria-current="page">New Vacuum</a>
         </div>
-        <button class="btn btn-outline-dark" [routerLink]="'/searchVacuums'">Search vacuum cleaners</button>
+        <div class="navbar-nav grid column-gap-3">
+          <button class="btn btn-outline-dark" [routerLink]="'/searchVacuums'">Search vacuum cleaners</button>
+          <button class="btn btn-outline-danger" [routerLink]="'/errors'">Errors</button>
+        </div>
       </div>
+      
     </div>
   </nav>
 </header>
