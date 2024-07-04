@@ -150,28 +150,18 @@ public class VacuumService implements IService<Vacuum, Long>{
                         else if(operation.equals("discharge") && vacuum.getStatus().equals(Status.STOPPED)){
                             this.dischargeVacuum(vacuum);
                         }
-                        else{
-                            message = "Vacuum is not in corresponding state";
-                            System.out.println("Vacuum is not in corresponding state");
-                            //Vacuum is not in adequate state
-                        }
+                        else message = "Vacuum is not in corresponding state";
                     }
-                    else{
-                        message = "Vacuum is busy";
-                        System.out.println("Vacuum is busy");
-                        //Operation is running on given vacuum
-                    }
+                    else message = "Vacuum is busy";
                 }
-                else{
-                    message = "Vacuum is removed";
-                    System.out.println("Vacuum is removed");
-                    //Vacuum is removed
+                else message = "Vacuum is removed";
+
+                if(!message.equals("")) {
+                    ErrorMessage errorMessage = new ErrorMessage(LocalDate.now(), id, vacuum.getUser().getId() , operation, message);
+                    this.errorRepository.save(errorMessage);
                 }
             }
-            if(!message.equals("")) {
-                ErrorMessage errorMessage = new ErrorMessage(LocalDate.now(), id, operation, message);
-                this.errorRepository.save(errorMessage);
-            }
+
 
         }, cronTrigger);
     }

@@ -10,9 +10,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "error")
 public class ErrorMessage {
-    public ErrorMessage(LocalDate date, Long vacuumId, String operation, String message) {
+    public ErrorMessage(LocalDate date, Long vacuumId, Long userId, String operation, String message) {
         this.date = date;
         this.vacuumId = vacuumId;
+        this.userId = userId;
         this.operation = operation;
         this.message = message;
     }
@@ -24,6 +25,8 @@ public class ErrorMessage {
     private LocalDate date;
 
     private Long vacuumId;
+
+    private Long userId;
 
     private String operation;
 
