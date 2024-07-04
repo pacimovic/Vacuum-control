@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Vacuum } from 'src/app/model';
+import { ScheduleDate, Vacuum } from 'src/app/model';
 import { AppService } from 'src/app/services/app.service';
 import { VacuumService } from 'src/app/services/vacuum.service';
 
@@ -13,9 +13,21 @@ export class SingleVacuumComponent implements OnInit{
 
   router = inject(Router)
 
-  constructor(private route: ActivatedRoute, private vacuumService: VacuumService, 
-    public appService: AppService
-  ) {}
+  seconds: number[] = []
+  minutes: number[] = []
+  hours: number[] = []
+  daysOfMonth: number[] = []
+  months: number[] = []
+  daysOfWeek: number[] = []
+
+  selectedSecond: number | string = '*'
+  selectedMinute: number | string = '*'
+  selectedHour: number | string = '*'
+  selectedDayOfMonth: number | string = '*'
+  selectedMonth: number | string = '*'
+  selectedDayOfWeek: number | string = '*'
+
+  operation: string = 'start'
 
   vacuum: Vacuum = {
     id: 0,
@@ -25,6 +37,14 @@ export class SingleVacuumComponent implements OnInit{
     active: false
   }
 
+  constructor(private route: ActivatedRoute, private vacuumService: VacuumService, public appService: AppService) {
+    for (let i = 0; i <= 59; i++) this.seconds.push(i);
+    for (let i = 0; i <= 59; i++) this.minutes.push(i);
+    for (let i = 0; i <= 23; i++) this.hours.push(i);
+    for (let i = 1; i <= 31; i++) this.daysOfMonth.push(i);
+    for (let i = 1; i <= 12; i++) this.months.push(i);
+    for (let i = 1; i <= 7; i++) this.daysOfWeek.push(i);
+  }
 
   ngOnInit(): void {
     const id: number = parseInt(<string> this.route.snapshot.paramMap.get('id'))
@@ -51,6 +71,20 @@ export class SingleVacuumComponent implements OnInit{
     })
   }
 
+  scheduleVacuum(): void {
+    var scheduleDate: ScheduleDate = {
+      second: this.selectedSecond.toString(),
+      minute: this.selectedMinute.toString(),
+      hour: this.selectedHour.toString(),
+      dayMonth: this.selectedDayOfMonth.toString(),
+      month: this.selectedMonth.toString(),
+      dayWeek: this.selectedDayOfWeek.toString()
+    }
+
+    this.vacuumService.scheduleOperation(scheduleDate, this.operation, this.vacuum.id).subscribe((vacuum) => {
+      alert(this.operation.toUpperCase() + " operation is scheduled on " + this.vacuum.name)
+    })
+  }
   
   deleteVacuum(): void {
     this.vacuumService.deleteVacuum(this.vacuum.id).subscribe((vacuum) => {

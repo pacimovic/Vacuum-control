@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } 
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
-import { NewVacuum, Vacuum } from '../model';
+import { NewVacuum, ScheduleDate, Vacuum } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +81,23 @@ export class VacuumService {
     pipe(catchError(this.handleError))
   }
 
-  deleteVacuum(id: number):  Observable<Vacuum> {
+  scheduleOperation(scheduleDate: ScheduleDate, operation: string, id: number): Observable<Vacuum> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      }),
+      params: new HttpParams({
+        fromObject: {
+          'operation': operation,
+          'id': id,
+        }
+      })
+    }
+    return this.httpClient.put<Vacuum>(`${this.apiUrl}/schedule`, scheduleDate, httpOptions).
+    pipe(catchError(this.handleError))
+  } 
+
+  deleteVacuum(id: number): Observable<Vacuum> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('jwt')}`
@@ -99,6 +115,8 @@ export class VacuumService {
       alert('You dont have permission for this resource!')
     } else if(error.status === 418) {
       alert('Vacuum cleaner with given name already exists!')
+    } else if(error.status === 404) {
+      alert('Vacuum cleaner is not found!')
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));

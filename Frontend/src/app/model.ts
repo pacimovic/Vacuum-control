@@ -31,6 +31,15 @@ export interface NewVacuum {
     name: string
 }
 
+export interface ScheduleDate {
+    second: string,
+    minute: string,
+    hour: string,
+    dayMonth: string,
+    month: string,
+    dayWeek: string
+}
+
 export interface User {
     id: number,
     name: string,

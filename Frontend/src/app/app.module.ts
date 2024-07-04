@@ -13,6 +13,8 @@ import { UpdateUserComponent } from './components/update-user/update-user.compon
 import { SearchVacuumsComponent } from './components/search-vacuums/search-vacuums.component';
 import { CreateVacuumComponent } from './components/create-vacuum/create-vacuum.component';
 import { SingleVacuumComponent } from './components/single-vacuum/single-vacuum.component';
+import { MonthNamePipe } from './pipes/month-name.pipe';
+import { WeekDayPipe } from './pipes/week-day.pipe';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { SingleVacuumComponent } from './components/single-vacuum/single-vacuum.
     UpdateUserComponent,
     SearchVacuumsComponent,
     CreateVacuumComponent,
-    SingleVacuumComponent
+    SingleVacuumComponent,
+    MonthNamePipe,
+    WeekDayPipe
   ],
   imports: [
     BrowserModule,

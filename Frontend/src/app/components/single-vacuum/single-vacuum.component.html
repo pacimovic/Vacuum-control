@@ -33,39 +33,62 @@
     <div class="row">
         <div class="col-3">
             <label for="selectOp" class="form-label">Operation:</label>
-            <select class="form-select" id="selectOp">
-                <option selected>*</option>
-                <option value="Start">START</option>
-                <option value="Stop">STOP</option>
-                <option value="Discharge">DISCHARGE</option>
+            <select [(ngModel)]="operation" class="form-select" id="selectOp">
+                <option selected value="start">START</option>
+                <option value="stop">STOP</option>
+                <option value="discharge">DISCHARGE</option>
             </select>
         </div>
     </div>
     <br>
     <div class="row">
         <div class="col">
-            <input type="text" class="form-control" placeholder="Second" aria-label="Second">
+            <label class="form-label">Second:</label>
+            <select class="form-select" [(ngModel)]="selectedSecond">
+                <option selected value="*">*</option>
+                <option *ngFor="let second of seconds" [value]="second">{{ second }}</option>
+            </select>
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="Minute" aria-label="Minute">
+            <label class="form-label">Minute:</label>
+            <select class="form-select" [(ngModel)]="selectedMinute">
+                <option selected value="*">*</option>
+                <option *ngFor="let minute of minutes" [value]="minute">{{ minute }}</option>
+            </select>
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="Hour" aria-label="Hour">
+            <label class="form-label">Hour:</label>
+            <select class="form-select" [(ngModel)]="selectedHour">
+                <option selected value="*">*</option>
+                <option *ngFor="let hour of hours" [value]="hour">{{ hour }}</option>
+            </select>
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="Day of month" aria-label="Day of month">
+            <label class="form-label">Day of month:</label>
+            <select class="form-select" [(ngModel)]="selectedDayOfMonth">
+                <option selected value="*">*</option>
+                <option *ngFor="let dayOfMonth of daysOfMonth" [value]="dayOfMonth">{{ dayOfMonth }}</option>
+            </select>
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="Month" aria-label="Month">
+            <label class="form-label">Month:</label>
+            <select class="form-select" [(ngModel)]="selectedMonth">
+                <option selected value="*">*</option>
+                <option *ngFor="let month of months" [value]="month">{{ month | monthName }}</option>
+            </select>
         </div>
         <div class="col">
-            <input type="text" class="form-control" placeholder="Day of week" aria-label="Day of week">
+            <label class="form-label">Day of week:</label>
+            <select class="form-select" [(ngModel)]="selectedDayOfWeek">
+                <option selected value="*">*</option>
+                <option *ngFor="let dayOfWeek of daysOfWeek" [value]="dayOfWeek">{{ dayOfWeek | weekDay}}</option>
+            </select>
         </div>
     </div>
     <br>
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-warning">SCHEDULE</button>
+            <button (click)="scheduleVacuum()" type="button" class="btn btn-warning">SCHEDULE</button>
         </div>
     </div>
 </div>
