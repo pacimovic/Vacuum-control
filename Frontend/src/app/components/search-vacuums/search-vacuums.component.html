@@ -9,10 +9,12 @@
       <div class="col-md-6">
         <label for="inputDateFrom" class="form-label">Date from:</label>
         <input [(ngModel)]="dateFrom" type="text" name="dateFrom" class="form-control" id="inputDateFrom" placeholder="yyyy-MM-dd">
+        <div class="error-message text-danger" *ngIf="dateFrom != '' && !isDateInFormat(dateFrom, 'yyyy-MM-dd')">Date is not valid!</div>
       </div>
       <div class="col-md-6">
         <label for="inputDateTo" class="form-label">Date to:</label>
         <input [(ngModel)]="dateTo" type="text" name="dateTo" class="form-control" id="inputDateTo" placeholder="yyyy-MM-dd">
+        <div class="error-message text-danger" *ngIf="dateTo != '' && !isDateInFormat(dateTo, 'yyyy-MM-dd')">Date is not valid!</div>
       </div>
       <div class="col-12">
         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
