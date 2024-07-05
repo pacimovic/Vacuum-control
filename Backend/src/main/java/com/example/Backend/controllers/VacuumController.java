@@ -174,9 +174,10 @@ public class VacuumController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteVacuum(@PathVariable Long id) {
 
-        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_remove_vacuum"))){
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_remove_vacuum")) &&
+                !runningOperations.containsKey(id)){
             Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
-            if(optionalVacuum.isPresent()){
+            if(optionalVacuum.isPresent() && optionalVacuum.get().isActive()){
                 Vacuum vacuum = optionalVacuum.get();
                 if(vacuum.getStatus() == Status.STOPPED){
                     vacuum.setActive(false);
