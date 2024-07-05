@@ -31,7 +31,7 @@ export const permissionGuard: CanActivateFn = (route, state) => {
     window.alert("You dont have permission to create vacuum cleaner!")
     router.navigate(['login'])
   }
-  else if(routePath === 'singleVacuum' && permission.can_search_vacuum == false){
+  else if(routePath === 'singleVacuum/:id' && permission.can_search_vacuum == false){
     window.alert("You dont have permission to view vacuum cleaner!")
     router.navigate(['login'])
   }

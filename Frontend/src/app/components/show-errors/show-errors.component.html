@@ -2,22 +2,29 @@
     <hr>
     <h3>Errors on scheduled operations:</h3>
     <br>
-    <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Vacuum name</th>
-            <th scope="col">Operation</th>
-            <th scope="col">Error Message</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let error of errors">
-            <td>{{error.vacuum}}</td>
-            <td>{{error.operation.toUpperCase()}}</td>
-            <td [ngStyle]="{color: 'red'}">{{error.message}}</td>
-            <td>{{error.date}}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div *ngIf="errors.length != 0; else noErrors">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Vacuum name</th>
+                    <th scope="col">Operation</th>
+                    <th scope="col">Error Message</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let error of errors">
+                    <td>{{error.vacuum}}</td>
+                    <td>{{error.operation.toUpperCase()}}</td>
+                    <td [ngStyle]="{color: 'red'}">{{error.message}}</td>
+                    <td>{{error.date}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <ng-template #noErrors>
+        <h5 class="position-absolute top-50 start-50 translate-middle">There is no errors on scheduled vacuum cleaners!</h5>
+    </ng-template>
+
 </div>

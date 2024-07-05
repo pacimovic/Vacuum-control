@@ -35,7 +35,10 @@ export class LoginComponent {
       alert('Login successful')
 
       var permission: Permission = loginResponse.permission
-      if (!(permission.can_create_users || permission.can_read_users || permission.can_update_users || permission.can_delete_users)) {
+      if (!(permission.can_create_users && permission.can_read_users && permission.can_update_users && permission.can_delete_users 
+        && permission.can_search_vacuum && permission.can_start_vacuum && permission.can_stop_vacuum && permission.can_discharge_vacuum
+        && permission.can_add_vacuum && permission.can_remove_vacuum
+      )) {
         alert('User has no any permission!')
       }
     })
