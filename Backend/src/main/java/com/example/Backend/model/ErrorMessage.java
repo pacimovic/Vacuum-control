@@ -1,6 +1,5 @@
 package com.example.Backend.model;
 
-import com.example.Backend.enums.Status;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,9 +9,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "error")
 public class ErrorMessage {
-    public ErrorMessage(LocalDate date, Long vacuumId, Long userId, String operation, String message) {
+    public ErrorMessage(LocalDate date, String vacuum, Long userId, String operation, String message) {
         this.date = date;
-        this.vacuumId = vacuumId;
+        this.vacuum = vacuum;
         this.userId = userId;
         this.operation = operation;
         this.message = message;
@@ -24,7 +23,7 @@ public class ErrorMessage {
 
     private LocalDate date;
 
-    private Long vacuumId;
+    private String vacuum;
 
     private Long userId;
 

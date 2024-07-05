@@ -2,5 +2,22 @@
     <hr>
     <h3>Errors on scheduled operations:</h3>
     <br>
-
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Vacuum name</th>
+            <th scope="col">Operation</th>
+            <th scope="col">Error Message</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let error of errors">
+            <td>{{error.vacuum}}</td>
+            <td>{{error.operation.toUpperCase()}}</td>
+            <td [ngStyle]="{color: 'red'}">{{error.message}}</td>
+            <td>{{error.date}}</td>
+          </tr>
+        </tbody>
+      </table>
 </div>

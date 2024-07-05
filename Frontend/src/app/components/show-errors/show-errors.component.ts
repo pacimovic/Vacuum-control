@@ -17,7 +17,6 @@ export class ShowErrorsComponent implements OnInit{
   ngOnInit(): void {
     this.errorService.getAllErrors().subscribe((errors) => {
       this.errors = errors
-      console.log(this.errors)
     })
   }
 

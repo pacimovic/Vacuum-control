@@ -43,7 +43,7 @@ export interface ScheduleDate {
 export interface ErrorMessage {
     id: string,
     date: string,
-    vacuumId: number,
+    vacuum: string,
     userId: number,
     operation: string,
     message: string

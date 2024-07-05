@@ -157,7 +157,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 else message = "Vacuum is removed";
 
                 if(!message.equals("")) {
-                    ErrorMessage errorMessage = new ErrorMessage(LocalDate.now(), id, vacuum.getUser().getId() , operation, message);
+                    ErrorMessage errorMessage = new ErrorMessage(LocalDate.now(), vacuum.getName(), vacuum.getUser().getId() , operation, message);
                     this.errorRepository.save(errorMessage);
                 }
             }

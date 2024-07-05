@@ -83,6 +83,7 @@ export class SingleVacuumComponent implements OnInit{
 
     this.vacuumService.scheduleOperation(scheduleDate, this.operation, this.vacuum.id).subscribe((vacuum) => {
       alert(this.operation.toUpperCase() + " operation is scheduled on " + this.vacuum.name)
+      this.router.navigate(['searchVacuums'])
     })
   }
   
