@@ -30,6 +30,7 @@ public class VacuumController {
 
     public static Map<Long, Boolean> runningOperations = new HashMap<>();
     public static Map<Long, Integer> vacuumRunningCycle = new HashMap<>();
+    public static Map<Long, List<ScheduleDate>> vacuumScheduleDatesOperation = new HashMap<>();
 
     public VacuumController(VacuumService vacuumService, UserService userService) {
         this.vacuumService = vacuumService;
@@ -134,6 +135,14 @@ public class VacuumController {
     public ResponseEntity<?> scheduleOperation(@RequestBody ScheduleDate scheduleDate, @RequestParam Long id,
                                                @RequestParam String operation) {
 
+        //Proveravamo da li je neka operacija nad usisivacem vec zakazana u ISTO VREME
+        if(vacuumScheduleDatesOperation.containsKey(id)){
+            List<ScheduleDate> scheduleDates = vacuumScheduleDatesOperation.get(id);
+            for(ScheduleDate date: scheduleDates){
+                if(date.compareTo(scheduleDate) == 0) return ResponseEntity.status(419).build();
+            }
+        }
+
         Collection<?> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         //Proveravamo permisije korisnika za operaciju koju hoce da zakaze
         if((operation.equals("start") && !authorities.contains(new SimpleGrantedAuthority("can_start_vacuum"))) ||
@@ -142,12 +151,13 @@ public class VacuumController {
             return ResponseEntity.status(403).build();
 
 
+        //Proveravamo da li je operacija jedna od datih
         if(!operation.equals("start") && !operation.equals("stop") && !operation.equals("discharge")){
             return ResponseEntity.status(403).build();
         }
 
         Optional<Vacuum> optionalVacuum = this.vacuumService.findById(id);
-        if(optionalVacuum.isPresent()){
+        if(optionalVacuum.isPresent() && optionalVacuum.get().isActive()){
             Vacuum vacuum = optionalVacuum.get();
             if(vacuum.getUser().getEmail().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
                 this.vacuumService.scheduleOperation(scheduleDate, operation, id);
@@ -155,11 +165,6 @@ public class VacuumController {
             }
         }
         else return ResponseEntity.status(404).build();
-
-
-        System.out.println(scheduleDate.toString());
-        System.out.println("Vacuum id: " + id);
-        System.out.println("Operation: " + operation);
 
         return ResponseEntity.status(403).build();
     }

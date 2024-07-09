@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,6 +131,18 @@ public class VacuumService implements IService<Vacuum, Long>{
 
     public void scheduleOperation(ScheduleDate scheduleDate, String operation, Long id) {
 
+        //Dodajemo novi datum za neku operaciju nad datim usisivacem
+        if(VacuumController.vacuumScheduleDatesOperation.containsKey(id)){
+            List<ScheduleDate> dates = VacuumController.vacuumScheduleDatesOperation.get(id);
+            dates.add(scheduleDate);
+            VacuumController.vacuumScheduleDatesOperation.put(id, dates);
+        }
+        else {
+            List<ScheduleDate> dates = new ArrayList<>();
+            dates.add(scheduleDate);
+            VacuumController.vacuumScheduleDatesOperation.put(id, dates);
+        }
+
         String expr = scheduleDate.getSecond() + " " + scheduleDate.getMinute() + " " + scheduleDate.getHour() + " " +
                 scheduleDate.getDayMonth() + " " + scheduleDate.getMonth() + " " + scheduleDate.getDayWeek();
         CronTrigger cronTrigger = new CronTrigger(expr);
@@ -166,6 +179,8 @@ public class VacuumService implements IService<Vacuum, Long>{
 
 
         }, cronTrigger);
+
+
     }
 
     public List<Vacuum> searchVacuum(String name, List<Status> statuses, String dateFrom, String dateTo, User user) {

@@ -117,6 +117,8 @@ export class VacuumService {
       alert('Vacuum cleaner with given name already exists!')
     } else if(error.status === 404) {
       alert('Vacuum cleaner is not found!')
+    }  else if(error.status === 419) {
+      alert('Schedule date already exists for this vacuum cleaner!')
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
