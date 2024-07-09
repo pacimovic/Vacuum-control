@@ -15,11 +15,11 @@
     <h5><strong>{{vacuum.created}}</strong></h5>
     <br><br>
     <div class="row">
-        <div class="col-md-1"><button (click)="startVacuum()" [disabled]="vacuum.status != 'STOPPED'" type="button"
+        <div class="col-md-1"><button (click)="startVacuum()" [disabled]="vacuum.status != 'STOPPED' || (appService.permission != null && appService.permission.can_start_vacuum == false)" type="button"
                 class="btn btn-success">START</button></div>
-        <div class="col-md-1"><button (click)="stopVacuum()" [disabled]="vacuum.status != 'RUNNING'" type="button"
+        <div class="col-md-1"><button (click)="stopVacuum()" [disabled]="vacuum.status != 'RUNNING' || (appService.permission != null && appService.permission.can_stop_vacuum == false)" type="button"
                 class="btn btn-danger">STOP</button></div>
-        <div class="col-md-1"><button (click)="dischargeVacuum()" [disabled]="vacuum.status != 'STOPPED'" type="button"
+        <div class="col-md-1"><button (click)="dischargeVacuum()" [disabled]="vacuum.status != 'STOPPED' || (appService.permission != null && appService.permission.can_discharge_vacuum == false)" type="button"
                 class="btn btn-primary">DISCHARGE</button></div>
         <div *ngIf="appService.permission != null && appService.permission.can_remove_vacuum != false"
             class="d-flex justify-content-end">

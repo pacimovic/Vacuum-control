@@ -19,8 +19,8 @@
         </div><br>
         <div class="form-group">
             <label for="exampleInputPassword1"><b>Password</b></label>
-            <input [(ngModel)]="user.password" name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            <div class="error-message text-danger" *ngIf="user.password===''"> Password is required! </div>
+            <input [(ngModel)]="formPassword" name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="New Password">
+            
         </div><br>
         <b>Permissions:</b>
         <div class="form-check">
@@ -64,6 +64,6 @@
             <label class="form-check-label" for="remove">Remove vacuum</label>
         </div>
         <br>
-        <button [disabled]="user.name==='' || user.password==='' || user.surname==='' || user.email===''" type="submit" class="btn btn-primary">Update User</button>
+        <button [disabled]="user.name==='' || user.surname==='' || user.email===''" type="submit" class="btn btn-primary">Update User</button>
     </form>
 </div>

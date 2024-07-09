@@ -22,6 +22,8 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -47,8 +49,8 @@ public class UserController {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public ResponseEntity<?> updateUser(@Valid @RequestBody User user) {
+        if(!user.getPassword().startsWith("$2a$10$")) user.setPassword(passwordEncoder.encode(user.getPassword()));
         if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("can_update_users")))
             return ResponseEntity.ok(userService.save(user));
 

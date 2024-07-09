@@ -34,15 +34,17 @@ export class UpdateUserComponent implements OnInit{
     }
   }
 
+  formPassword : string = ''
+
   ngOnInit(): void {
     const id: number = parseInt(<string>this.route.snapshot.paramMap.get('id'))
     this.userService.findUser(id).subscribe( user => {
       this.user = user
-      this.user.password = ''
     })
   }
 
   updateUser(): void {
+    if(this.formPassword != '') this.user.password = this.formPassword
     this.userService.updateUser(this.user).subscribe(user => {
       alert('User: ' + user.name + ' is updated!')
       this.router.navigate(['showUsers'])
