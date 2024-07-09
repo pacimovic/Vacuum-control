@@ -6,7 +6,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -27,7 +27,7 @@ public class Vacuum {
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private User user;
 
-    private LocalDate created;
+    private LocalDateTime created;
 
     private boolean active;
 

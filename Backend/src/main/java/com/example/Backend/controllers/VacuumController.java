@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @CrossOrigin
@@ -42,7 +44,7 @@ public class VacuumController {
         vacuum.setUser(user);
         vacuum.setStatus(Status.STOPPED);
         vacuum.setActive(true);
-        vacuum.setCreated(LocalDate.now());
+        vacuum.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
         Optional<Vacuum> optionalVacuum = this.vacuumService.findByName(vacuum.getName());
         if(optionalVacuum.isPresent()) return ResponseEntity.status(418).build();

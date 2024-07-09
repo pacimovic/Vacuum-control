@@ -15,6 +15,8 @@ import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -157,7 +159,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 else message = "Vacuum is removed";
 
                 if(!message.equals("")) {
-                    ErrorMessage errorMessage = new ErrorMessage(LocalDate.now(), vacuum.getName(), vacuum.getUser().getId() , operation, message);
+                    ErrorMessage errorMessage = new ErrorMessage(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), vacuum.getName(), vacuum.getUser().getId() , operation, message);
                     this.errorRepository.save(errorMessage);
                 }
             }
@@ -173,11 +175,11 @@ public class VacuumService implements IService<Vacuum, Long>{
             statuses.add(Status.DISCHARGING);
         }
 
-        LocalDate date1;
-        if(dateFrom.equals("")) date1 = LocalDate.of(1970, 1, 1);
-        else date1 = LocalDate.parse(dateFrom);
+        LocalDateTime date1;
+        if(dateFrom.equals("")) date1 = LocalDateTime.of(1970, 01, 01, 00, 00, 00);
+        else date1 = LocalDateTime.parse(dateFrom.concat("T00:00:00"));
 
-        if(!dateTo.equals("")) return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(name, statuses, date1, LocalDate.parse(dateTo), user);
+        if(!dateTo.equals("")) return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(name, statuses, date1, LocalDateTime.parse(dateTo.concat("T00:00:00")), user);
 
         return this.vacuumRepository.findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndActiveTrueAndUser(name, statuses, date1, user);
     }

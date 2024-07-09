@@ -4,12 +4,13 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "error")
 public class ErrorMessage {
-    public ErrorMessage(LocalDate date, String vacuum, Long userId, String operation, String message) {
+    public ErrorMessage(LocalDateTime date, String vacuum, Long userId, String operation, String message) {
         this.date = date;
         this.vacuum = vacuum;
         this.userId = userId;
@@ -21,7 +22,7 @@ public class ErrorMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     private String vacuum;
 

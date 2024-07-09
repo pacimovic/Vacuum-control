@@ -10,9 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -82,9 +82,9 @@ public class BootstrapData implements CommandLineRunner {
             if(i%2 == 0) vacuum.setStatus(Status.RUNNING);
             else vacuum.setStatus(Status.STOPPED);
             vacuum.setUser(user);
-            vacuum.setActive(true);
-            if(i == 1 || i == 2) vacuum.setCreated(LocalDate.of(2024, 6, 18));
-            else vacuum.setCreated(LocalDate.now());
+            vacuum.setActive(true); //2024,6,18
+            if(i == 1 || i == 2) vacuum.setCreated(LocalDateTime.of(2024,6,18, 13, 30, 00));
+            else vacuum.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
             vacuums.add(vacuum);
         }
@@ -97,7 +97,7 @@ public class BootstrapData implements CommandLineRunner {
             else vacuum1.setStatus(Status.STOPPED);
             vacuum1.setUser(user1);
             vacuum1.setActive(true);
-            vacuum1.setCreated(LocalDate.now());
+            vacuum1.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 
             vacuums1.add(vacuum1);
         }

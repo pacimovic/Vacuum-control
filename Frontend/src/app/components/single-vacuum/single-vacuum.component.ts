@@ -49,6 +49,7 @@ export class SingleVacuumComponent implements OnInit{
   ngOnInit(): void {
     const id: number = parseInt(<string> this.route.snapshot.paramMap.get('id'))
     this.vacuumService.findVacuum(id).subscribe( vacuum => {
+      vacuum.created = vacuum.created.replace("T", " ")
       this.vacuum = vacuum
     })
   }

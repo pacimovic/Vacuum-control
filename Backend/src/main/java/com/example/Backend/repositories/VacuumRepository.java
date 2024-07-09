@@ -7,16 +7,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface VacuumRepository extends JpaRepository<Vacuum, Long> {
 
-    List<Vacuum> findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndActiveTrueAndUser(String name, List<Status> statuses, LocalDate dateFrom, User user);
+    List<Vacuum> findByNameContainsAndStatusInAndCreatedGreaterThanEqualAndActiveTrueAndUser(String name, List<Status> statuses, LocalDateTime dateFrom, User user);
 
-    List<Vacuum> findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(String name, List<Status> statuses, LocalDate dateFrom, LocalDate dateTo, User user);
+    List<Vacuum> findByNameContainsAndStatusInAndCreatedBetweenAndActiveTrueAndUser(String name, List<Status> statuses, LocalDateTime dateFrom, LocalDateTime dateTo, User user);
 
     Optional<Vacuum> findByName(String name);
 

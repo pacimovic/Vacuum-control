@@ -16,6 +16,9 @@ export class ShowErrorsComponent implements OnInit{
 
   ngOnInit(): void {
     this.errorService.getAllErrors().subscribe((errors) => {
+      for(let i = 0; i < errors.length; i++){
+        errors[i].date = errors[i].date.replace("T"," ")
+      }
       this.errors = errors
     })
   }

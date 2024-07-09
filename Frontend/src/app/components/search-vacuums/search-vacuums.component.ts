@@ -27,6 +27,9 @@ export class SearchVacuumsComponent implements OnInit{
 
   ngOnInit(): void {
     this.vacuumService.getVacuums('', [''], '', '').subscribe( vacuumsRes => {
+      for(let i = 0; i < vacuumsRes.length; i++){
+        vacuumsRes[i].created = vacuumsRes[i].created.replace("T"," ")
+      }
       this.vacuums = vacuumsRes
     })
   }
@@ -45,6 +48,9 @@ export class SearchVacuumsComponent implements OnInit{
       if(this.statuses.length == 0) this.statuses = ['']
 
       this.vacuumService.getVacuums(this.name, this.statuses, this.dateFrom, this.dateTo).subscribe( vacuumsRes => {
+        for(let i = 0; i < vacuumsRes.length; i++){
+          vacuumsRes[i].created = vacuumsRes[i].created.replace("T"," ")
+        }
         this.vacuums = vacuumsRes
       })
     
