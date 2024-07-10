@@ -73,6 +73,19 @@ export class SingleVacuumComponent implements OnInit{
   }
 
   scheduleVacuum(): void {
+    if(this.operation === 'start' && !this.appService.permission.can_start_vacuum){
+      alert("You don't have permission to schedule START on vacuum cleaner!")
+      return
+    }
+    else if(this.operation === 'stop' && !this.appService.permission.can_stop_vacuum){
+      alert("You don't have permission to schedule STOP on vacuum cleaner!")
+      return
+    }
+    else if(this.operation === 'discharge' && !this.appService.permission.can_discharge_vacuum){
+      alert("You don't have permission to schedule DISCHARGE on vacuum cleaner!")
+      return
+    }
+
     var scheduleDate: ScheduleDate = {
       second: this.selectedSecond.toString(),
       minute: this.selectedMinute.toString(),

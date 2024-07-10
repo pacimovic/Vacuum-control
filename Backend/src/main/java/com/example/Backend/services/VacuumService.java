@@ -97,7 +97,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 VacuumController.vacuumRunningCycle.put(vacuum.getId(), cycleCounter);
                 if(cycleCounter >= 3){
                     VacuumController.vacuumRunningCycle.put(vacuum.getId(), 0);
-                    dischargeVacuum(newVacuum);
+                    this.dischargeVacuum(newVacuum);
                 }
                 VacuumController.runningOperations.remove(vacuum.getId());
             }
@@ -179,7 +179,6 @@ public class VacuumService implements IService<Vacuum, Long>{
 
 
         }, cronTrigger);
-
 
     }
 
