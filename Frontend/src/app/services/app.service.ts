@@ -7,5 +7,7 @@ import { Permission } from '../model';
 export class AppService {
 
   permission: Permission = JSON.parse(localStorage.getItem("permission")!)
+
+  username: string = ''
   
 }

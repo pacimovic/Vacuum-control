@@ -37,6 +37,8 @@ export class LoginComponent {
       //prikaz ili sakrivanje linka za kreiranje korisnika od zavisnosti od permisije
       this.appService.permission = decodedToken.permission
 
+      this.appService.username = decodedToken.username
+
       alert('Login successful')
 
       var permission: Permission = decodedToken.permission
