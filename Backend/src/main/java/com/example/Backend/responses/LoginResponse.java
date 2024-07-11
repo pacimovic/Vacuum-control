@@ -11,10 +11,7 @@ public class LoginResponse {
 
     private String jwt;
 
-    private Permission permission;
-
-    public LoginResponse(String jwt, Permission permission) {
+    public LoginResponse(String jwt) {
         this.jwt = jwt;
-        this.permission = permission;
     }
 }

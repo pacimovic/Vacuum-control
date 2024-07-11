@@ -2,6 +2,7 @@ package com.example.Backend.controllers;
 
 
 import com.example.Backend.model.Permission;
+import com.example.Backend.model.User;
 import com.example.Backend.requests.LoginRequest;
 import com.example.Backend.responses.LoginResponse;
 import com.example.Backend.services.UserService;
@@ -38,8 +39,9 @@ public class AuthController {
         }
 
         Permission permission = getPermissions(au);
+        User user = this.userService.findByEmail(loginRequest.getEmail());
 
-        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail()), permission));
+        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail(), permission, user.getName())));
     }
 
     private Permission getPermissions(Authentication au){
