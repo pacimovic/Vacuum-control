@@ -21,6 +21,7 @@ export class UpdateUserComponent implements OnInit{
     email: '',
     password: '',
     permission: {
+        id: 0,
         can_create_users: false,
         can_read_users: false,
         can_update_users: false,

@@ -22,6 +22,7 @@ export class CreateUserComponent {
     email: '',
     password: '',
     permission: {
+      id: 0,
       can_create_users: false,
       can_read_users: false,
       can_update_users: false,

@@ -16,7 +16,7 @@ export class LoginComponent {
     password: ''
   }
 
-  constructor(private loginService: LoginService, private appService: AppService) {}
+  constructor(private loginService: LoginService, private appService: AppService) { }
 
   login(): void {
     //console.log('Email: ' + this.loginRequest.email + ' ,Password: ' + this.loginRequest.password)
@@ -34,15 +34,20 @@ export class LoginComponent {
       localStorage.removeItem('permission')
       localStorage.setItem('permission', JSON.stringify(decodedToken.permission))
 
+      //cuvanje username u local storage
+      localStorage.removeItem('username')
+      localStorage.setItem('username', decodedToken.username)
+
       //prikaz ili sakrivanje linka za kreiranje korisnika od zavisnosti od permisije
       this.appService.permission = decodedToken.permission
 
+      //prikaz username-a na nav-baru
       this.appService.username = decodedToken.username
 
       alert('Login successful')
 
       var permission: Permission = decodedToken.permission
-      if (!permission.can_create_users && !permission.can_read_users && !permission.can_update_users && !permission.can_delete_users 
+      if (!permission.can_create_users && !permission.can_read_users && !permission.can_update_users && !permission.can_delete_users
         && !permission.can_search_vacuum && !permission.can_start_vacuum && !permission.can_stop_vacuum && !permission.can_discharge_vacuum
         && !permission.can_add_vacuum && !permission.can_remove_vacuum
       ) {

@@ -47,6 +47,7 @@ export interface User {
 }
 
 export interface Permission {
+    id: number,
     can_create_users: boolean,
     can_read_users: boolean,
     can_update_users: boolean,

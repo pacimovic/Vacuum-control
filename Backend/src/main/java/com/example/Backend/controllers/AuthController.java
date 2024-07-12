@@ -38,35 +38,9 @@ public class AuthController {
             return ResponseEntity.status(401).build();
         }
 
-        Permission permission = getPermissions(au);
-        User user = this.userService.findByEmail(loginRequest.getEmail());
+        User user = this.userService.findByEmail(au.getName());
 
-        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail(), permission, user.getName())));
+        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail(), user.getPermission(), user.getName())));
     }
 
-    private Permission getPermissions(Authentication au){
-        Permission permission = new Permission();
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_read_users"))) permission.setCan_read_users(true);
-        else permission.setCan_read_users(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_create_users"))) permission.setCan_create_users(true);
-        else permission.setCan_create_users(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_update_users"))) permission.setCan_update_users(true);
-        else permission.setCan_update_users(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_delete_users"))) permission.setCan_delete_users(true);
-        else permission.setCan_delete_users(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_search_vacuum"))) permission.setCan_search_vacuum(true);
-        else permission.setCan_search_vacuum(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_start_vacuum"))) permission.setCan_start_vacuum(true);
-        else permission.setCan_start_vacuum(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_stop_vacuum"))) permission.setCan_stop_vacuum(true);
-        else permission.setCan_stop_vacuum(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_discharge_vacuum"))) permission.setCan_discharge_vacuum(true);
-        else permission.setCan_discharge_vacuum(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_add_vacuum"))) permission.setCan_add_vacuum(true);
-        else permission.setCan_add_vacuum(false);
-        if(au.getAuthorities().contains(new SimpleGrantedAuthority("can_remove_vacuum"))) permission.setCan_remove_vacuum(true);
-        else permission.setCan_remove_vacuum(false);
-
-        return permission;
-    }
 }
