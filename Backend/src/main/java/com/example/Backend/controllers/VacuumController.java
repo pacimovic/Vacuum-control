@@ -9,6 +9,7 @@ import com.example.Backend.services.VacuumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,9 +33,12 @@ public class VacuumController {
     public static Map<Long, Integer> vacuumRunningCycle = new HashMap<>();
     public static Map<Long, List<ScheduleDate>> vacuumScheduleDatesOperation = new HashMap<>();
 
-    public VacuumController(VacuumService vacuumService, UserService userService) {
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    public VacuumController(VacuumService vacuumService, UserService userService, SimpMessagingTemplate simpMessagingTemplate) {
         this.vacuumService = vacuumService;
         this.userService = userService;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -62,6 +66,8 @@ public class VacuumController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> searchVacuum(@RequestParam String name, @RequestParam("status") List<Status> statuses,
                                           @RequestParam String dateFrom, @RequestParam String dateTo){
+
+
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByEmail(email);

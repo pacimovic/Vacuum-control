@@ -3,6 +3,8 @@ import { LoginRequest, Permission } from 'src/app/model';
 import { AppService } from 'src/app/services/app.service';
 import { LoginService } from 'src/app/services/login.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { CompatClient, Stomp } from '@stomp/stompjs';
+import * as SockJS from 'sockjs-client';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +18,11 @@ export class LoginComponent {
     password: ''
   }
 
+  stompClient: CompatClient
+
   constructor(private loginService: LoginService, private appService: AppService) { }
 
   login(): void {
-    //console.log('Email: ' + this.loginRequest.email + ' ,Password: ' + this.loginRequest.password)
     this.loginService.login(this.loginRequest).subscribe(loginResponse => {
 
       //extractovanje jwt-a
@@ -53,9 +56,26 @@ export class LoginComponent {
       ) {
         alert('User has no any permission!')
       }
+
+      //Konekcija na web socket
+      const jwt = loginResponse.jwt
+      const socket = new SockJS(`http://localhost:8080/ws?jwt=${jwt}`)
+      this.stompClient = Stomp.over(socket)
+      this.stompClient.connect({}, this.onConnect.bind(this))
     })
 
     this.loginRequest.email = ''
     this.loginRequest.password = ''
+  }
+
+  onConnect(frame: any) {
+    console.log("Konekcija na socket uspesna.")
+    this.stompClient.subscribe('/topic/messages', this.addNewMessage.bind(this));
+    console.log('Connected: ' + frame);
+  }
+
+  addNewMessage(messageOutput: any) {
+    console.log('Poruka od servera:')
+    console.log(JSON.parse(messageOutput.body))
   }
 }
