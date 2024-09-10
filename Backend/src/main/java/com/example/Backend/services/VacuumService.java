@@ -13,8 +13,8 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -25,15 +25,15 @@ import java.util.Optional;
 public class VacuumService implements IService<Vacuum, Long>{
 
     private final VacuumRepository vacuumRepository;
-
     private final ErrorRepository errorRepository;
-
     private TaskScheduler taskScheduler;
+    private SimpMessagingTemplate simpMessagingTemplate;
 
-    public VacuumService(VacuumRepository vacuumRepository, ErrorRepository errorRepository, TaskScheduler taskScheduler) {
+    public VacuumService(VacuumRepository vacuumRepository, ErrorRepository errorRepository, TaskScheduler taskScheduler, SimpMessagingTemplate simpMessagingTemplate) {
         this.vacuumRepository = vacuumRepository;
         this.errorRepository = errorRepository;
         this.taskScheduler = taskScheduler;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @Override
@@ -72,6 +72,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 vacuum.setStatus(Status.RUNNING);
                 this.vacuumRepository.save(vacuum);
                 VacuumController.runningOperations.remove(vacuum.getId());
+                this.simpMessagingTemplate.convertAndSend("/topic/messages", "Vacuum cleaner: " + vacuum.getName() + " has started!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -100,6 +101,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                     this.dischargeVacuum(newVacuum);
                 }
                 VacuumController.runningOperations.remove(vacuum.getId());
+                this.simpMessagingTemplate.convertAndSend("/topic/messages", "Vacuum cleaner: " + vacuum.getName() + " has stopped!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -121,6 +123,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 newVacuum.setStatus(Status.STOPPED);
                 this.vacuumRepository.save(newVacuum);
                 VacuumController.runningOperations.remove(vacuum.getId());
+                this.simpMessagingTemplate.convertAndSend("/topic/messages", "Vacuum cleaner: " + vacuum.getName() + " has discharged!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

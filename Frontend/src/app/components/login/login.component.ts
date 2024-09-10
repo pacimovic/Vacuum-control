@@ -55,6 +55,10 @@ export class LoginComponent{
         alert('User has no any permission!')
       }
 
+
+      //Kada se uspesno login-ujemo konektujemo se na web socket
+      this.loginService.connectSocket()
+
     })
 
     this.loginRequest.email = ''

@@ -36,6 +36,11 @@ public class JwtFilter extends OncePerRequestFilter{
             email = jwtUtil.extractEmail(jwt);
         }
 
+        if (jwt == null && httpServletRequest.getParameter("jwt") != null) {
+            jwt = httpServletRequest.getParameter("jwt");
+            email = jwtUtil.extractEmail(jwt);
+        }
+
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.userService.loadUserByUsername(email);
