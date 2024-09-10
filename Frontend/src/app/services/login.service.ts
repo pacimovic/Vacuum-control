@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { LoginRequest, LoginResponse } from '../model';
 import { Observable, catchError, throwError } from 'rxjs';
+import { CompatClient, Stomp } from '@stomp/stompjs';
+import * as SockJS from 'sockjs-client';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,13 @@ export class LoginService {
 
   private readonly apiUrl = environment.loginApi
 
-  constructor(private htttpClient: HttpClient) { }
+  // @ts-ignore
+  stompClient: CompatClient;
+ 
+
+  constructor(private htttpClient: HttpClient) {
+  }
+
 
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
@@ -19,6 +28,24 @@ export class LoginService {
     pipe(catchError(this.handleError));
   }
 
+  connectSocket(): void{
+          //Konekcija na web socket
+          const jwt = localStorage.getItem('jwt')
+          const socket = new SockJS(`http://localhost:8080/ws`)
+          this.stompClient = Stomp.over(socket)
+          this.stompClient.connect({}, this.onConnect.bind(this))
+  }
+
+  onConnect(frame: any) { 
+    console.log("Konekcija na socket uspesna.")
+    this.stompClient.subscribe('/topic/messages', this.addNewMessage.bind(this));
+    console.log('Connected: ' + frame);
+  }
+
+  addNewMessage(messageOutput: any) {
+    console.log('Poruka od servera:')
+    console.log(JSON.parse(messageOutput.body))
+  }
 
   private handleError(error: HttpErrorResponse){
       if (error.status === 0) {
