@@ -39,6 +39,9 @@ export class LoginComponent{
       localStorage.removeItem('username')
       localStorage.setItem('username', decodedToken.username)
 
+      //cuvanje id usera u local storage
+      localStorage.setItem('id', decodedToken.id)
+
       //prikaz ili sakrivanje linka za kreiranje korisnika od zavisnosti od permisije
       this.appService.permission = decodedToken.permission
 

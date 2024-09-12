@@ -14,13 +14,13 @@ export class LoginService {
 
   private readonly apiUrl = environment.loginApi
 
+  isConnected: boolean = false
+
   // @ts-ignore
   stompClient: CompatClient;
 
-
   constructor(private htttpClient: HttpClient) {
   }
-
 
 
   login(loginRequest: LoginRequest): Observable<LoginResponse> {
@@ -30,20 +30,31 @@ export class LoginService {
 
   connectSocket(): void {
     //Konekcija na web socket
+    this.disconnect()
     const jwt = localStorage.getItem('jwt')
     const socket = new SockJS(`http://localhost:8080/ws?jwt=${jwt}`)
     this.stompClient = Stomp.over(socket)
     this.stompClient.connect({}, this.onConnect.bind(this))
+
   }
 
   onConnect(frame: any) {
-    console.log("Konekcija na socket uspesna.")
-    this.stompClient.subscribe('/topic/messages', this.addNewMessage.bind(this));
+    let id = Number(localStorage.getItem('id'))
+    this.stompClient.subscribe(`/topic/messages/${id}`, this.addNewMessage.bind(this));
+    this.isConnected = true;
     console.log('Connected: ' + frame);
   }
 
   addNewMessage(messageOutput: any) {
     alert(messageOutput.body)
+  }
+
+  disconnect() {
+    if(this.stompClient != null) {
+      this.stompClient.disconnect();
+    }
+    this.isConnected = false;
+    console.log("Disconnected");
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -40,7 +40,7 @@ public class AuthController {
 
         User user = this.userService.findByEmail(au.getName());
 
-        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail(), user.getPermission(), user.getName())));
+        return ResponseEntity.ok(new LoginResponse(jwtUtil.generateToken(loginRequest.getEmail(), user)));
     }
 
 }

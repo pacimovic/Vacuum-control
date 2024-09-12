@@ -1,6 +1,7 @@
 package com.example.Backend.utils;
 
 import com.example.Backend.model.Permission;
+import com.example.Backend.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,10 +29,11 @@ public class JwtUtil {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    public String generateToken(String email, Permission permission, String username){
+    public String generateToken(String email, User user){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("permission", permission);
-        claims.put("username", username);
+        claims.put("permission", user.getPermission());
+        claims.put("username", user.getName());
+        claims.put("id" ,user.getId());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(email)

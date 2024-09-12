@@ -72,7 +72,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 vacuum.setStatus(Status.RUNNING);
                 this.vacuumRepository.save(vacuum);
                 VacuumController.runningOperations.remove(vacuum.getId());
-                this.simpMessagingTemplate.convertAndSend("/topic/messages", "Vacuum cleaner: " + vacuum.getName() + " has started!");
+                this.simpMessagingTemplate.convertAndSend("/topic/messages/" + vacuum.getUser().getId(), "Vacuum cleaner: " + vacuum.getName() + " has started!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                     this.dischargeVacuum(newVacuum);
                 }
                 VacuumController.runningOperations.remove(vacuum.getId());
-                this.simpMessagingTemplate.convertAndSend("/topic/messages", "Vacuum cleaner: " + vacuum.getName() + " has stopped!");
+                this.simpMessagingTemplate.convertAndSend("/topic/messages/" + vacuum.getUser().getId(), "Vacuum cleaner: " + vacuum.getName() + " has stopped!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -123,7 +123,7 @@ public class VacuumService implements IService<Vacuum, Long>{
                 newVacuum.setStatus(Status.STOPPED);
                 this.vacuumRepository.save(newVacuum);
                 VacuumController.runningOperations.remove(vacuum.getId());
-                this.simpMessagingTemplate.convertAndSend("/topic/messages", "Vacuum cleaner: " + vacuum.getName() + " has discharged!");
+                this.simpMessagingTemplate.convertAndSend("/topic/messages/" + vacuum.getUser().getId(), "Vacuum cleaner: " + vacuum.getName() + " has discharged!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
