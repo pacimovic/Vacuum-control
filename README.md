@@ -52,6 +52,8 @@ This project is split into two main modules:
 2. **Add Vacuum**: A form to add new vacuums with only the name as input (other attributes are automatically filled in).
 3. **Error History**: Display errors related to scheduled operations.
 
+![](images/search.jpg)
+
 ## User Management
 
 - **JWT Authentication**: Secure login using JWT tokens stored in local storage.
@@ -59,6 +61,12 @@ This project is split into two main modules:
 - **User Operations**: 
   - Create, read, update, and delete users.
   - Permission-based access to user management features (e.g., users with no permissions cannot perform actions).
+ 
+## Scheduling Operations
+
+Operations like **START**, **STOP**, and **DISCHARGE** can be scheduled. If an operation fails, an error message is logged. Error logs are displayed on the error history page for the user who scheduled the operation.
+
+![](images/single.jpg)
 
 ## Setup and Installation
 
@@ -106,10 +114,6 @@ This project is split into two main modules:
     ```
 
 The application will be accessible at `http://localhost:4200/`.
-
-## Scheduling Operations
-
-Operations like **START**, **STOP**, and **DISCHARGE** can be scheduled. If an operation fails, an error message is logged. Error logs are displayed on the error history page for the user who scheduled the operation.
 
 ## Future Work
 
